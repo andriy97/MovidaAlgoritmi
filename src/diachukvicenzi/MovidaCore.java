@@ -3,7 +3,11 @@ package diachukvicenzi;
 import movida.commons.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
@@ -11,20 +15,24 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     private SortingAlgorithm algorithm = SortingAlgorithm.QuickSort;
     private MapImplementation structure = MapImplementation.AVL;
+    final private AVL avl=new AVL();
+    final private Btree btree=new Btree();
+    final private QuickSort quickSort=new QuickSort();
+    private Set<Movie> Movies;
 
     public boolean mySort (SortingAlgorithm a) { //ritorna 1 se è tra quei due, 0 altrimenti
         return a == SortingAlgorithm.QuickSort || a == SortingAlgorithm.SelectionSort;
     }
     public boolean myMap (MapImplementation m){
-      return m == MapImplementation.AVL || m == MapImplementation.BTree;
+        return m == MapImplementation.AVL || m == MapImplementation.BTree;
     }
 
     @Override
     public boolean setSort(SortingAlgorithm a) {
         SortingAlgorithm old = algorithm;
-         if(mySort(a)) { //se è tra i miei algoritmi lo cambio altrimenti non faccio nulla
-             algorithm = a;
-         }
+        if(mySort(a)) { //se è tra i miei algoritmi lo cambio altrimenti non faccio nulla
+            algorithm = a;
+        }
         return algorithm != old; // 1 se è cambiato
     }
 
@@ -37,6 +45,10 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         return structure != old;
     }
 
+    private boolean AVL() {//ritorna 1 se la struttura in uso è AVL
+        return structure == MapImplementation.AVL;
+    }
+
 //IMovidaDB
 
     @Override
@@ -45,43 +57,30 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         try {
             FileReader fr = new FileReader(f); // read file
             BufferedReader br = new BufferedReader(fr); // creates a buffering character input stream
+            Utils utils=new Utils();
 
-            String Titolo,Anno,Regista,Cast,Voti;
-            int index;
-            String s;
+            String Titolo,Anno,Voti,s;
+            Person[] Cast;
+            Person Regista;
+            String reg="Regista";
 
+            while ((s = br.readLine()) != null) {
 
+                //trim lo uso per togliere eventuali spazi
 
-            Titolo=br.readLine();
-            index = Titolo.indexOf(':');
-            Titolo=Titolo.substring(index + 2, Titolo.length());
+                Titolo = utils.findElement(s);
+                Anno = utils.findElement(br.readLine()).trim();
+                Regista = new Person(utils.findElement(br.readLine()),reg,1);
+                Cast = utils.findCast(br.readLine());
+                Voti = utils.findElement(br.readLine()).trim();
 
-            Anno=br.readLine();
-            index = Anno.indexOf(':');
-            Anno=Anno.substring(index + 2, Anno.length());
+                Movie movie = new Movie(Titolo, Integer.parseInt(Anno), Integer.parseInt(Voti), Cast, Regista);
 
-            Cast=br.readLine();
-            index = Cast.indexOf(':');
-            Cast=Cast.substring(index + 2, Cast.length());
+                avl.insert(movie);
 
-            Regista=br.readLine();
-            index = Regista.indexOf(':');
-            Regista=Regista.substring(index + 2, Regista.length());
-
-            Voti=br.readLine();
-            index = Voti.indexOf(':');
-            Voti=Voti.substring(index + 2, Voti.length());
-
-
-            System.out.println(Titolo);
-            System.out.println(Anno);
-            System.out.println(Cast);
-            System.out.println(Regista);
-            System.out.println(Voti);
-
-
-
-
+                // per scorrere la linea vuota
+                s=br.readLine();
+            }
 
 
         }  catch (FileNotFoundException e) {
@@ -89,10 +88,10 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        {
 
+        }
     }
-
-
     @Override
     public void saveToFile(File f) {
 
@@ -100,92 +99,189 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     @Override
     public void clear() {
-
+        // cancella tutto l'albero ha bisogno di un nuovo inserimento dei dati
+        avl.makeEmpty();
     }
 
     @Override
     public int countMovies() {
-        return 0;
+        if(AVL()){
+            return btree.sizeOfTree(); //forse sbagliato
+        }else{
+            return avl.nodecount;
+        }
+
     }
 
     @Override
     public int countPeople() {
-        return 0;
+        if (AVL()){
+            return btree.countPeople(); //da fare
+        }else{
+            return avl.countPeople();
+        }
     }
 
     @Override
     public boolean deleteMovieByTitle(String title) {
-        return false;
+        return avl.deleteMovieByTitle(title);
     }
 
     @Override
     public Movie getMovieByTitle(String title) {
-        return null;
+        return avl.getMovieByTitle(title);
     }
 
     @Override
     public Person getPersonByName(String name) {
-        return null;
+        return avl.getPersonByName(name);
     }
 
     @Override
     public Movie[] getAllMovies() {
-        return new Movie[0];
+
+        Movies=avl.getMovieSet();
+        Movie[] film=new Movie[Movies.size()];
+        Movies.toArray(film);
+
+        return film;
     }
 
     @Override
     public Person[] getAllPeople() {
-        return new Person[0];
+
+
+        Set<Person> person = avl.getPersonSet();
+        Person[] persone=new Person[person.size()];
+        person.toArray(persone);
+
+        return persone;
     }
 
     @Override
     public Movie[] searchMoviesByTitle(String title) {
-        return new Movie[0];
+
+        Movie[] movie=getAllMovies();
+        Set<Movie> film;
+        film = new HashSet<>();
+        for (Movie x : movie) {
+
+            if(x.getTitle().contains(title)){
+                film.add(x);
+            }
+
+        }
+
+        movie=new Movie[film.size()];
+
+        return film.toArray(movie);
     }
 
     @Override
     public Movie[] searchMoviesInYear(Integer year) {
-        return new Movie[0];
+
+        Movies=avl.getMovieYearSet(year);
+        Movie[] film=new Movie[Movies.size()];
+        Movies.toArray(film);
+
+        return film;
     }
 
     @Override
+
     public Movie[] searchMoviesDirectedBy(String name) {
-        return new Movie[0];
+        Movies=avl.searchMoviesDirectedBy(name);
+        Movie[] film=new Movie[Movies.size()];
+        Movies.toArray(film);
+
+        return film;
     }
 
     @Override
     public Movie[] searchMoviesStarredBy(String name) {
-        return new Movie[0];
+
+        Movie[] movie=getAllMovies();
+        Set<Movie> result  = new HashSet<>();;
+
+        for (int i = 0; i < movie.length; i++) {
+            if(movie[i].getTitle().contains(name)){
+                result.add(movie[i]);
+            }
+        }
+        movie=new Movie[result.size()];
+
+        return result.toArray(movie);
     }
 
     @Override
     public Movie[] searchMostVotedMovies(Integer N) {
-        return new Movie[0];
+
+        Movie[] x=getAllMovies();
+        Movie[] result;
+        int max=x.length;
+        if (max<N) {
+            N=max;
+            result = new Movie[max];
+        }
+        else result=new Movie[N];
+        x=quickSort.sort(x,0,max-1,0);
+
+        for (int i = 0; i < N; i++) {
+            result[i]=x[i];
+        }
+
+        return  result;
     }
 
     @Override
     public Movie[] searchMostRecentMovies(Integer N) {
-        return new Movie[0];
+        Movie[] x=getAllMovies();
+        Movie[] result;
+        int max=x.length;
+        if (max<N) {
+            N=max;
+            result = new Movie[max];
+        }
+        else result=new Movie[N];
+        x=quickSort.sort(x,0,max-1,1);
+
+        for (int i = 0; i < N; i++) {
+            result[i]=x[i];
+        }
+
+        return  result;
     }
 
     @Override
     public Person[] searchMostActiveActors(Integer N) {
-        return new Person[0];
+        avl.getPersonSet();
+        Person[] x =avl.getPersonSet1();
+        printArray(x);
+        Person[] result;
+        int max=x.length;
+        if (max<N) {
+            N=max;
+            result = new Person[max];
+        }
+        else result=new Person[N];
+        x=quickSort.sort(x,0,max-1,0);
+
+        for (int i = 0; i < N; i++) {
+            result[i]=x[i];
+        }
+
+        return result;
+    }
+
+    static void printArray(Person[] movie)
+    {
+        int n = movie.length;
+        for (int i=0; i<n; ++i)
+            System.out.println(movie[i].getFilmCount()+" "+movie[i].getName());
+        System.out.println();
     }
 }
 
 
-//NEL MAIN:
 
-/*
-java.io.file
-//prima scelgo struttura
-//
-MovidaCore movida = new MovidaCore();
-movida.setMap("una delle strutture in enum");
-movida.setSort();
 
-albero=movida.loadfromfile();
-//caricare dati
-
-*/
