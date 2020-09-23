@@ -445,28 +445,27 @@ public class AVL {
 /////////////////////////////////////////////////////////////////////////////////
 
     public Movie getMovieByTitle(String Title) {
-        return getMovieByTitle(root, Title);
-    }
-
-    public Movie getMovieByTitle(AVLNode node, String Title) {
-        if (node == null) {
-            return null;
+            return getMovieByTitle(root, Title);
         }
 
-        int compare = (Title.trim()).compareTo(node.m.getTitle().trim());
-        if (compare < 0) {
-            return getMovieByTitle(node.left, Title);
-        }
-        if (compare > 1) {
-            return getMovieByTitle(node.right, Title);
-        }
-        if (compare == 0 || compare==1) {
-            return node.m;
-        }
+        public Movie getMovieByTitle(AVLNode node, String Title) {
+            if (node == null) {
+                return null;
+            }
 
-        return null;
-    }
+            int compare = (Title.trim()).compareTo(node.m.getTitle().trim());
+            if (compare < 0) {
+                return getMovieByTitle(node.left, Title);
+            }
+            if (compare > 0) {
+                return getMovieByTitle(node.right, Title);
+            }
+            else {
+                return node.m;
+            }
 
+            //return null;
+        }
 
 
 
