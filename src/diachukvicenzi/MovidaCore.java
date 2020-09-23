@@ -94,7 +94,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
     @Override
     public void saveToFile(File f) {
-
+        Utils.saveFile(f,albero.getMovieSet());
     }
 
     @Override
