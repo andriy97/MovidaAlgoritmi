@@ -37,7 +37,45 @@ import java.lang.reflect.Array;
             return cast;
 
         }
+        
+        public static void saveFile(File f, Set<Movie> movieSet) {
 
+
+
+        try {
+            FileWriter fw = new FileWriter(f.getName(),false);
+            PrintWriter out = new PrintWriter(fw);
+            for (Movie movie:movieSet) {
+                //System.out.println(""+movie.getTitle());
+                out.println("Title: "+movie.getTitle());
+                out.println("Year: "+movie.getYear()  );
+                out.println("Director: "+movie.getDirector().getName());
+                out.println("Cast: "+toString(movie.getCast()));
+                out.println("Votes: "+movie.getVotes() );
+                out.println("");
+            }
+            out.close();
+
+            //System.out.println(""+out);
+
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static String toString(Person[] person){
+        String result="";
+        for (Person p:person) {
+            result+=p.getName()+" ,";
+        }
+
+        return result.substring(0, result.length() - 1);
+    }
 
     }
 
