@@ -37,6 +37,9 @@ public class Movie {
 		this.cast = cast;
 		this.director = director;
 	}
+	public Movie(String title) {
+		this.title = title;
+	}
 
 	public String getTitle() {
 		return this.title;

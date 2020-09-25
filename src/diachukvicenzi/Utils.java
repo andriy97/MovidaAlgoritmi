@@ -1,11 +1,17 @@
 
 package diachukvicenzi;
 
+import movida.commons.Movie;
 import movida.commons.Person;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
+import java.util.Set;
 
-    public class Utils {
+public class Utils {
 
         // funzione che prende il testo dopo i ":"
         public String findElement(String riga){
@@ -38,14 +44,14 @@ import java.lang.reflect.Array;
 
         }
         
-        public static void saveFile(File f, Set<Movie> movieSet) {
+        public static void saveFile(File f, Movie[] movies) {
 
 
 
         try {
             FileWriter fw = new FileWriter(f.getName(),false);
             PrintWriter out = new PrintWriter(fw);
-            for (Movie movie:movieSet) {
+            for (Movie movie: movies) {
                 //System.out.println(""+movie.getTitle());
                 out.println("Title: "+movie.getTitle());
                 out.println("Year: "+movie.getYear()  );

@@ -76,7 +76,12 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
                 Movie movie = new Movie(Titolo, Integer.parseInt(Anno), Integer.parseInt(Voti), Cast, Regista);
 
-                avl.insert(movie);
+                if(AVL()){
+                    avl.insert(movie);
+                }else{
+                    btree.insert(movie);
+                }
+
 
                 // per scorrere la linea vuota
                 s=br.readLine();
@@ -93,14 +98,28 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         }
     }
     @Override
-    public void saveToFile(File f) {
-        Utils.saveFile(f,albero.getMovieSet());
+    public void saveToFile(File f) { //dovrebbe funzionare
+
+        if(AVL()) { //da ottimizzare
+            Movies = avl.getMovieSet();
+            Movie[] film = new Movie[Movies.size()];
+            Movies.toArray(film);
+            Utils.saveFile(f, film);
+        }else{
+            Utils.saveFile(f, btree.getAllMovies());
+        }
     }
 
     @Override
-    public void clear() {
-        // cancella tutto l'albero ha bisogno di un nuovo inserimento dei dati
-        avl.makeEmpty();
+    public void clear() { //funzia
+        if (AVL()){
+            avl.makeEmpty();
+        }else{
+            btree.clear();
+        }
+
+
+
     }
 
     @Override
@@ -116,20 +135,30 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     @Override
     public int countPeople() {
         if (AVL()){
-            return btree.countPeople(); //da fare
+          //  return btree.countPeople(); //da fare
         }else{
             return avl.countPeople();
         }
+        return 0;
     }
 
     @Override
-    public boolean deleteMovieByTitle(String title) {
-        return avl.deleteMovieByTitle(title);
+    public boolean deleteMovieByTitle(String title) { //funzia
+        if(AVL()){
+            return avl.deleteMovieByTitle(title);
+        }else{
+            return btree.deleteMovieByTitle(title);
+        }
+
     }
 
     @Override
-    public Movie getMovieByTitle(String title) {
-        return avl.getMovieByTitle(title);
+    public Movie getMovieByTitle(String title) { //funzia
+        if(AVL()){
+            return btree.getMovieByTitle(title);
+        }else{
+            return avl.getMovieByTitle(title);
+        }
     }
 
     @Override
@@ -138,13 +167,16 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] getAllMovies() {
+    public Movie[] getAllMovies() { //funzia
+        if(AVL()){
+            Movies=avl.getMovieSet();
+            Movie[] film=new Movie[Movies.size()];
+            Movies.toArray(film);
+            return film;
+        }else{
+            return btree.getAllMovies();
+        }
 
-        Movies=avl.getMovieSet();
-        Movie[] film=new Movie[Movies.size()];
-        Movies.toArray(film);
-
-        return film;
     }
 
     @Override
@@ -159,22 +191,22 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMoviesByTitle(String title) {
-
-        Movie[] movie=getAllMovies();
-        Set<Movie> film;
-        film = new HashSet<>();
-        for (Movie x : movie) {
-
-            if(x.getTitle().contains(title)){
-                film.add(x);
+    public Movie[] searchMoviesByTitle(String title) { //Funzia, da ottimizzare if
+        if(AVL()){
+            Movie[] movie=getAllMovies();
+            Set<Movie> film;
+            film = new HashSet<>();
+            for (Movie x : movie) {
+                if(x.getTitle().contains(title)){
+                    film.add(x);
+                }
             }
-
+            movie=new Movie[film.size()];
+            return film.toArray(movie);
+        }else{
+           return btree.searchMoviesByTitle(title);
         }
 
-        movie=new Movie[film.size()];
-
-        return film.toArray(movie);
     }
 
     @Override

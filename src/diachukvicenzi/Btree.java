@@ -1,8 +1,11 @@
 package diachukvicenzi;
-
 import movida.commons.Movie;
+import movida.commons.Person;
 
-public class  Btree {
+import java.util.HashSet;
+import java.util.Set;
+
+public class Btree {
     public BTreeNode root; // Pointer to root node
     public int t; // Minimum degree
     int size = 0; //size of tree;
@@ -21,11 +24,11 @@ public class  Btree {
     }
 
     // function to search a key in this tree
-    public BTreeNode search(Movie k) {
+    public BTreeNode searchKey(Movie k) {
         if (this.root == null)
             return null;
         else
-            return this.root.search(k);
+            return this.root.searchFromThisNode(k);
     }
 
     void insert(Movie k) {
@@ -57,7 +60,7 @@ public class  Btree {
             System.out.println("Empty tree");
             return;
         }
-        root.remove(k);
+        root.removeFromNode(k);
         if(root.n == 0) {
             BTreeNode tmp = root;
             if(root.leaf)
@@ -66,6 +69,14 @@ public class  Btree {
                 root = root.C[0];
         }
         return;
+    }
+
+    public int countMovies() {
+        if (this.root != null)
+            //return this.root.keys;
+            return root.countKeys(root.n);
+        else
+            return 0;
     }
 
     // A BTree node
@@ -92,7 +103,12 @@ public class  Btree {
             return idx;
         }
 
-        public void remove(Movie k) {
+        public int countKeys(int n){
+            return 0;
+
+        }
+
+        public void removeFromNode(Movie k) {
             int idx = findKey(k);
             if(idx < n && keys[idx].equals(k)) {
                 if(leaf)
@@ -108,9 +124,9 @@ public class  Btree {
                 if(C[idx].n < t)
                     fill(idx);
                 if(flag && idx > n)
-                    C[idx - 1].remove(k);
+                    C[idx - 1].removeFromNode(k);
                 else
-                    C[idx].remove(k);
+                    C[idx].removeFromNode(k);
             }
             return;
         }
@@ -137,7 +153,7 @@ public class  Btree {
             {
                 Movie pred = getPred(idx);
                 keys[idx] = pred;
-                C[idx].remove(pred);
+                C[idx].removeFromNode(pred);
             }
 
             // If the child C[idx] has less that t keys, examine C[idx+1].
@@ -149,7 +165,7 @@ public class  Btree {
             {
                 Movie succ = getSucc(idx);
                 keys[idx] = succ;
-                C[idx+1].remove(succ);
+                C[idx+1].removeFromNode(succ);
             }
 
             // If both C[idx] and C[idx+1] has less that t keys,merge k and all of C[idx+1]
@@ -159,7 +175,7 @@ public class  Btree {
             else
             {
                 merge(idx);
-                C[idx].remove(k);
+                C[idx].removeFromNode(k);
             }
             return;
         }
@@ -317,7 +333,6 @@ public class  Btree {
 
         // A function to traverse all nodes in a subtree rooted with this node
         public void traverse() {
-
             // There are n keys and n+1 children, travers through n keys
             // and first n children
             int i = 0;
@@ -328,7 +343,7 @@ public class  Btree {
                 if (this.leaf == false) {
                     C[i].traverse();
                 }
-                System.out.print(keys[i] + " ");
+                System.out.println(keys[i] + " ");
             }
 
             // Print the subtree rooted with last child
@@ -337,7 +352,7 @@ public class  Btree {
         }
 
         // A function to search a key in the subtree rooted with this node.
-        BTreeNode search(Movie k) { // returns NULL if k is not present.
+        BTreeNode searchFromThisNode(Movie k) { // returns NULL if k is not present.
 
             // Find the first key greater than or equal to k
             int i = 0;
@@ -355,7 +370,7 @@ public class  Btree {
                 return null;
 
             // Go to the appropriate child
-            return C[i].search(k);
+            return C[i].searchFromThisNode(k);
 
         }
 
@@ -401,27 +416,41 @@ public class  Btree {
         }
     }
 
-    public void insert(Movie movie, Comparable k) {
-        insert(movie);
 
-    }
 
-    public void delete(Comparable k) {
-        Movie movieToRemove = new Movie(k.toString());
-        remove(movieToRemove);
-    }
-
-    public Movie search(Comparable k) {
-        Movie movieToSearch = new Movie(k.toString());
-        BTreeNode node = search(movieToSearch);
+    public Movie getMovieByTitle(String k) {
+        Movie movieToSearch = new Movie(k);
+        BTreeNode node = searchKey(movieToSearch);
         if(node!=null) {
             for(int i=0; i < node.n; i++) {
-                if(node.keys[i].getTitle().equals(k.toString())) {
+                if(node.keys[i].getTitle().equals(k)) {
                     return node.keys[i];
                 }
             }
         }
         return null;
+    }
+
+    public Movie[] searchMoviesByTitle(String k){
+        Movie[] movies=getAllMovies();
+        Set<Movie> movieSet=new HashSet<>();
+        for(Movie movie:movies){
+            if(movie.getTitle().contains(k)){
+                movieSet.add(movie);
+            }
+        }
+        movies=new Movie[movieSet.size()];
+        return movieSet.toArray(movies);
+
+    }
+    public boolean deleteMovieByTitle(String k){
+        if (getMovieByTitle(k)!=null){
+            Movie movieToDelete =new Movie(k);
+            remove(movieToDelete);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public int sizeOfTree() {
@@ -438,7 +467,20 @@ public class  Btree {
         return -1;
     }
 
-    public Movie[] getMovies() {
+
+
+
+    public void clear() {
+        Movie[] listOfMovies = getAllMovies();
+        for(int i = 0; i<listOfMovies.length; i++) {
+            remove(listOfMovies[i]);
+        }
+        root = null;
+
+    }
+
+
+    public Movie[] getAllMovies() {
         Movie[] listOfMovies = new Movie[sizeOfTree()];
         getMovies(root,listOfMovies,0);
         return listOfMovies;
@@ -471,26 +513,5 @@ public class  Btree {
         return;
     }
 
-    @Override
-    public void clear() {
-        Movie[] listOfMovies = getMovies();
-        for(int i = 0; i<listOfMovies.length; i++) {
-            delete(listOfMovies[i].getTitle());
-        }
-        root = null;
-
-    }
-
-    @Override
-    public String toString() {
-        if(root == null) {
-            return "Albero vuoto";
-        }
-        traverse();
-        return "";
-    }
-
-
 }
-
 
