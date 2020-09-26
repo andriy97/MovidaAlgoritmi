@@ -8,10 +8,12 @@ public class main {
     public static void main(String[] args){
         Btree btree=new Btree();
         Person persona = new Person("Filippo", "attore", 3);
-        Person[] persone= new Person[1];
+        Person persona2 = new Person("Filip", "attore", 3);
+        Person[] persone= new Person[2];
         persone[0]=persona;
+        persone[1]=persona2;
 
-        Movie movie1 =new Movie("babbo", 3, 32, persone, persona);
+        Movie movie1 =new Movie("babbo", 3, 32, persone, persona2);
         Movie movie2 = new Movie ("birra", 4, 3332, persone, persona);
         Movie movie3 = new Movie ("oijsf", 2, 433, persone, persona);
         Movie movie4 = new Movie ("fagiano", 7, 34, persone, persona);
@@ -46,7 +48,7 @@ public class main {
 
         //btree.traverse();
 
-        Movie[] film =btree.searchMoviesByTitle("");
+        Movie[] film =btree.searchMoviesStarredBy("Filippo");
         for(Movie movie: film){
             System.out.println(movie.getTitle());
         }

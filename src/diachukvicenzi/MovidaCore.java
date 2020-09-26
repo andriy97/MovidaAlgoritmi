@@ -210,39 +210,49 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMoviesInYear(Integer year) {
-
-        Movies=avl.getMovieYearSet(year);
-        Movie[] film=new Movie[Movies.size()];
-        Movies.toArray(film);
-
-        return film;
-    }
-
-    @Override
-
-    public Movie[] searchMoviesDirectedBy(String name) {
-        Movies=avl.searchMoviesDirectedBy(name);
-        Movie[] film=new Movie[Movies.size()];
-        Movies.toArray(film);
-
-        return film;
-    }
-
-    @Override
-    public Movie[] searchMoviesStarredBy(String name) {
-
-        Movie[] movie=getAllMovies();
-        Set<Movie> result  = new HashSet<>();;
-
-        for (int i = 0; i < movie.length; i++) {
-            if(movie[i].getTitle().contains(name)){
-                result.add(movie[i]);
-            }
+    public Movie[] searchMoviesInYear(Integer year) { //funzia
+        if (AVL()){
+            Movies=avl.getMovieYearSet(year);
+            Movie[] film=new Movie[Movies.size()];
+            Movies.toArray(film);
+            return film;
+        }else{
+            return btree.searchMoviesInYear(year);
         }
-        movie=new Movie[result.size()];
 
-        return result.toArray(movie);
+    }
+
+    @Override
+
+    public Movie[] searchMoviesDirectedBy(String name) { //Funzia
+        if(AVL()){
+            Movies=avl.searchMoviesDirectedBy(name);
+            Movie[] film=new Movie[Movies.size()];
+            Movies.toArray(film);
+            return film;
+        }else{
+            return btree.searchMoviesDirectedBy(name);
+        }
+
+    }
+
+    @Override
+    public Movie[] searchMoviesStarredBy(String name) { //if sbagliato
+        if(AVL()){
+            Movie[] movie=getAllMovies();
+            Set<Movie> result  = new HashSet<>();
+            for (int i = 0; i < movie.length; i++) {
+                if(movie[i].getTitle().contains(name)){
+                    result.add(movie[i]);
+                }
+            }
+            movie=new Movie[result.size()];
+            return result.toArray(movie);
+        }else {
+           return btree.searchMoviesStarredBy(name);
+        }
+
+
     }
 
     @Override

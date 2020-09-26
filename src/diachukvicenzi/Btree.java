@@ -443,6 +443,44 @@ public class Btree {
         return movieSet.toArray(movies);
 
     }
+    public Movie[] searchMoviesInYear(Integer year){
+        Movie[] movies=getAllMovies();
+        Set<Movie> movieSet=new HashSet<>();
+        for(Movie movie:movies){
+            if(movie.getYear()==year){
+                movieSet.add(movie);
+            }
+        }
+        movies=new Movie[movieSet.size()];
+        return movieSet.toArray(movies);
+    }
+    public Movie[] searchMoviesDirectedBy(String name){
+        Movie[] movies=getAllMovies();
+        Set<Movie> movieSet=new HashSet<>();
+        for(Movie movie:movies){
+            if(movie.getDirector().getName()==name){
+                movieSet.add(movie);
+            }
+        }
+        movies=new Movie[movieSet.size()];
+        return movieSet.toArray(movies);
+    }
+
+    public Movie[] searchMoviesStarredBy(String name){
+        Movie[] movies=getAllMovies();
+        Set<Movie> movieSet=new HashSet<>();
+        for(Movie movie:movies){
+            for(Person actor:movie.getCast()){
+                if(actor.getName()==name){
+                    movieSet.add(movie);
+                }
+
+            }
+        }
+        movies=new Movie[movieSet.size()];
+        return movieSet.toArray(movies);
+    }
+
     public boolean deleteMovieByTitle(String k){
         if (getMovieByTitle(k)!=null){
             Movie movieToDelete =new Movie(k);
