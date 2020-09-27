@@ -7,6 +7,7 @@ public class main {
 
     public static void main(String[] args){
         Btree btree=new Btree();
+        SelectionSort selectionSort =new SelectionSort();
         Person persona = new Person("Filippo", "attore", 3);
         Person persona2 = new Person("Filip", "attore", 3);
         Person[] persone= new Person[2];
@@ -48,9 +49,9 @@ public class main {
 
         //btree.traverse();
 
-        Movie[] film =btree.searchMoviesStarredBy("Filippo");
+        Movie[] film =selectionSort.sort(btree.getAllMovies(), "anno");
         for(Movie movie: film){
-            System.out.println(movie.getTitle());
+            System.out.println(movie.getYear());
         }
 
 

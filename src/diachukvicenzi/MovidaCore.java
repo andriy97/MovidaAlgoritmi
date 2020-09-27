@@ -18,6 +18,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     final private AVL avl=new AVL();
     final private Btree btree=new Btree();
     final private QuickSort quickSort=new QuickSort();
+    final SelectionSort selectionSort=new SelectionSort();
     private Set<Movie> Movies;
 
     public boolean mySort (SortingAlgorithm a) { //ritorna 1 se è tra quei due, 0 altrimenti
@@ -47,6 +48,9 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     private boolean AVL() {//ritorna 1 se la struttura in uso è AVL
         return structure == MapImplementation.AVL;
+    }
+    private boolean SelSort() {//ritorna 1 se l'algoritmo in uso è Selection Sort
+        return algorithm == SortingAlgorithm.SelectionSort;
     }
 
 //IMovidaDB
@@ -256,42 +260,52 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMostVotedMovies(Integer N) {
-
+    public Movie[] searchMostVotedMovies(Integer N) { //dovrebbe funzia
         Movie[] x=getAllMovies();
         Movie[] result;
         int max=x.length;
         if (max<N) {
             N=max;
             result = new Movie[max];
+        }else{
+            result=new Movie[N];
         }
-        else result=new Movie[N];
-        x=quickSort.sort(x,0,max-1,0);
-
+        if(SelSort()){
+            x=selectionSort.sort(x, "voti");
+        }else {
+            x = quickSort.sort(x, 0, max - 1, 0);
+        }
         for (int i = 0; i < N; i++) {
             result[i]=x[i];
         }
-
         return  result;
+
+        
     }
 
+
+
     @Override
-    public Movie[] searchMostRecentMovies(Integer N) {
+    public Movie[] searchMostRecentMovies(Integer N) { //dovrebbe funzia
         Movie[] x=getAllMovies();
         Movie[] result;
         int max=x.length;
         if (max<N) {
             N=max;
             result = new Movie[max];
+        }else{
+            result=new Movie[N];
         }
-        else result=new Movie[N];
-        x=quickSort.sort(x,0,max-1,1);
-
+        if(SelSort()){
+            x=selectionSort.sort(x, "anno");
+        }else {
+            x = quickSort.sort(x, 0, max - 1, 1);
+        }
         for (int i = 0; i < N; i++) {
             result[i]=x[i];
         }
-
         return  result;
+
     }
 
     @Override
