@@ -127,9 +127,9 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public int countMovies() {
+    public int countMovies() { //funzia
         if(AVL()){
-            return btree.sizeOfTree(); //forse sbagliato
+            return btree.size;
         }else{
             return avl.nodecount;
         }
@@ -137,13 +137,12 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public int countPeople() {
+    public int countPeople() { //funzia
         if (AVL()){
-          //  return btree.countPeople(); //da fare
+          return btree.countPeople();
         }else{
             return avl.countPeople();
         }
-        return 0;
     }
 
     @Override
@@ -166,8 +165,13 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Person getPersonByName(String name) {
-        return avl.getPersonByName(name);
+    public Person getPersonByName(String name) { //funzia
+        if(AVL()){
+            return avl.getPersonByName(name);
+        }else{
+            return btree.getPersonByName(name);
+        }
+
     }
 
     @Override
@@ -184,14 +188,16 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Person[] getAllPeople() {
+    public Person[] getAllPeople() { //funzia
+        if(AVL()){
+            Set<Person> person = avl.getPersonSet();
+            Person[] persone=new Person[person.size()];
+            person.toArray(persone);
 
-
-        Set<Person> person = avl.getPersonSet();
-        Person[] persone=new Person[person.size()];
-        person.toArray(persone);
-
-        return persone;
+            return persone;
+        }else{
+            return btree.getAllPeople();
+        }
     }
 
     @Override

@@ -49,10 +49,11 @@ public class main {
 
         //btree.traverse();
 
-        Movie[] film =selectionSort.sort(btree.getAllMovies(), "anno");
-        for(Movie movie: film){
-            System.out.println(movie.getYear());
+
+        for(Person person:btree.getAllPeople()){
+            System.out.println(person.getName());
         }
+
 
 
 

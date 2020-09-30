@@ -71,13 +71,6 @@ public class Btree {
         return;
     }
 
-    public int countMovies() {
-        if (this.root != null)
-            //return this.root.keys;
-            return root.countKeys(root.n);
-        else
-            return 0;
-    }
 
     // A BTree node
     class BTreeNode {
@@ -431,6 +424,18 @@ public class Btree {
         return null;
     }
 
+    public Person getPersonByName(String name){
+        Movie[] movies=getAllMovies();
+        for(Movie movie:movies){
+            for(Person person :movie.getCast()){
+                if(person.getName().trim().compareTo(name.trim())==0){
+                    return person;
+                }
+            }
+        }
+        return null;
+    }
+
     public Movie[] searchMoviesByTitle(String k){
         Movie[] movies=getAllMovies();
         Set<Movie> movieSet=new HashSet<>();
@@ -507,6 +512,21 @@ public class Btree {
 
 
 
+    public int countPeople(){
+            return getAllPeople().length;
+    }
+
+    public Person[] getAllPeople(){
+        Movie[] movies=getAllMovies();
+        Set<Person> peopleSet=new HashSet<>();
+        for(Movie movie:movies){
+            for(Person person:movie.getCast())
+                peopleSet.add(person);
+
+        }
+        Person[] people=new Person[peopleSet.size()];
+        return peopleSet.toArray(people);
+    }
 
     public void clear() {
         Movie[] listOfMovies = getAllMovies();

@@ -1,15 +1,12 @@
 package diachukvicenzi;
 
 import movida.commons.Movie;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import movida.commons.Person;
 public class AVL {
 
     public static class AVLNode {
-
         int bf;
         Movie m;
         int height;
