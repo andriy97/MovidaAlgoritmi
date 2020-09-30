@@ -9,7 +9,7 @@ public class main {
         Btree btree=new Btree();
         SelectionSort selectionSort =new SelectionSort();
         Person persona = new Person("Filippo", "attore", 3);
-        Person persona2 = new Person("Filip", "attore", 3);
+        Person persona2 = new Person("Filip", "attore", 2);
         Person[] persone= new Person[2];
         persone[0]=persona;
         persone[1]=persona2;
@@ -50,9 +50,12 @@ public class main {
         //btree.traverse();
 
 
-        for(Person person:btree.getAllPeople()){
+        for(Person person:btree.searchMostActiveActors(0)){
             System.out.println(person.getName());
         }
+
+
+
 
 
 

@@ -188,7 +188,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Person[] getAllPeople() { //funzia
+    public Person[] getAllPeople() { //funzia, cerca solo nel cast, forse da fare anche registi
         if(AVL()){
             Set<Person> person = avl.getPersonSet();
             Person[] persone=new Person[person.size()];
@@ -316,23 +316,26 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     @Override
     public Person[] searchMostActiveActors(Integer N) {
-        avl.getPersonSet();
-        Person[] x =avl.getPersonSet1();
-        printArray(x);
-        Person[] result;
-        int max=x.length;
-        if (max<N) {
-            N=max;
-            result = new Person[max];
-        }
-        else result=new Person[N];
-        x=quickSort.sort(x,0,max-1,0);
+        if(AVL()) {
+            avl.getPersonSet();
+            Person[] x = avl.getPersonSet1();
+            printArray(x);
+            Person[] result;
+            int max = x.length;
+            if (max < N) {
+                N = max;
+                result = new Person[max];
+            } else result = new Person[N];
+            x = quickSort.sort(x, 0, max - 1, 0);
 
-        for (int i = 0; i < N; i++) {
-            result[i]=x[i];
-        }
+            for (int i = 0; i < N; i++) {
+                result[i] = x[i];
+            }
 
-        return result;
+            return result;
+        }else{
+           return btree.searchMostActiveActors(N);
+        }
     }
 
     static void printArray(Person[] movie)

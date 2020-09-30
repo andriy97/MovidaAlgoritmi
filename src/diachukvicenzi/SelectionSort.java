@@ -1,6 +1,7 @@
 package diachukvicenzi;
 
 import movida.commons.Movie;
+import movida.commons.Person;
 
 public class SelectionSort {
 
@@ -33,5 +34,30 @@ public class SelectionSort {
             }
         }
         return array;
+    }
+
+    public Person[] sort(Person[] array){
+        for(int i = 0; i < array.length-1; i++) {
+            int minimo = i; //Partiamo dall' i-esimo elemento
+            for(int j = i+1; j < array.length; j++) {
+                //Qui avviene la selezione, ogni volta
+                //che nell' iterazione troviamo un elemento piú piccolo di minimo
+                //facciamo puntare minimo all' elemento trovato
+
+                if(array[minimo].getFilmCount()<array[j].getFilmCount()) {
+                    minimo = j;
+                }
+
+            }
+            //Se minimo e diverso dall' elemento di partenza
+            //allora avviene lo scambio
+            if(minimo!=i) {
+                Person k = array[minimo];
+                array[minimo]= array[i];
+                array[i] = k;
+            }
+        }
+        return array;
+
     }
 }

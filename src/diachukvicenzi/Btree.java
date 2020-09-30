@@ -96,10 +96,6 @@ public class Btree {
             return idx;
         }
 
-        public int countKeys(int n){
-            return 0;
-
-        }
 
         public void removeFromNode(Movie k) {
             int idx = findKey(k);
@@ -469,6 +465,23 @@ public class Btree {
         }
         movies=new Movie[movieSet.size()];
         return movieSet.toArray(movies);
+    }
+    public Person[] searchMostActiveActors(Integer N) {
+        SelectionSort selectionSort=new SelectionSort();
+        Person[] attori=getAllPeople(); //da sostituire con getAllActors nel caso
+        Person[] result;
+        int max = attori.length;
+        if (max < N) {
+            N = max;
+            result = new Person[max];
+        } else result = new Person[N];
+        attori = selectionSort.sort(attori);
+
+        for (int i = 0; i < N; i++) {
+            result[i] = attori[i];
+        }
+
+        return result;
     }
 
     public Movie[] searchMoviesStarredBy(String name){
