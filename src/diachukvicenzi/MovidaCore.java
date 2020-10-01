@@ -102,7 +102,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         }
     }
     @Override
-    public void saveToFile(File f) { //dovrebbe funzionare
+    public void saveToFile(File f) { //fare getAllMovies e togliere if else
 
         if(AVL()) { //da ottimizzare
             Movies = avl.getMovieSet();
@@ -175,7 +175,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] getAllMovies() { //funzia
+    public Movie[] getAllMovies() { //funzia da migliorare if
         if(AVL()){
             Movies=avl.getMovieSet();
             Movie[] film=new Movie[Movies.size()];
@@ -201,7 +201,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMoviesByTitle(String title) { //Funzia, da ottimizzare if
+    public Movie[] searchMoviesByTitle(String title) { //Funzia, togliere if else
         if(AVL()){
             Movie[] movie=getAllMovies();
             Set<Movie> film;
@@ -220,7 +220,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMoviesInYear(Integer year) { //funzia
+    public Movie[] searchMoviesInYear(Integer year) { //funzia, togliere if else, copiare da search by title
         if (AVL()){
             Movies=avl.getMovieYearSet(year);
             Movie[] film=new Movie[Movies.size()];
@@ -234,7 +234,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     @Override
 
-    public Movie[] searchMoviesDirectedBy(String name) { //Funzia
+    public Movie[] searchMoviesDirectedBy(String name) { //Funzia, uguale a by title cambiare solo condizione
         if(AVL()){
             Movies=avl.searchMoviesDirectedBy(name);
             Movie[] film=new Movie[Movies.size()];
@@ -247,7 +247,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] searchMoviesStarredBy(String name) { //if sbagliato
+    public Movie[] searchMoviesStarredBy(String name) { //if sbagliato, anche qui togliere if
         if(AVL()){
             Movie[] movie=getAllMovies();
             Set<Movie> result  = new HashSet<>();
@@ -315,7 +315,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Person[] searchMostActiveActors(Integer N) {
+    public Person[] searchMostActiveActors(Integer N) { //crea getallactors e togli if
         if(AVL()) {
             avl.getPersonSet();
             Person[] x = avl.getPersonSet1();

@@ -25,35 +25,47 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="57" />
+          <entry key="java" value="58" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="57" />
+          <entry key="JAVA" value="58" />
           <entry key="PLAIN_TEXT" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="4312" />
+          <entry key="java" value="4492" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="4312" />
+          <entry key="JAVA" value="4492" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/MovidaCore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="336" column="17" selection-start-line="336" selection-start-column="17" selection-end-line="336" selection-end-column="17" />
+            <state relative-caret-position="60">
+              <caret line="249" column="70" lean-forward="true" selection-start-line="249" selection-start-column="70" selection-end-line="249" selection-end-column="70" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-85">
+              <caret line="53" column="39" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Btree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="480" column="30" selection-start-line="480" selection-start-column="30" selection-end-line="480" selection-end-column="30" />
+            <state relative-caret-position="231">
+              <caret line="457" column="55" lean-forward="true" selection-start-line="457" selection-start-column="55" selection-end-line="457" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#15327#15328#0" expanded="true" />
@@ -80,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/movida/commons/IMovidaSearch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1162">
+            <state relative-caret-position="-1222">
               <caret line="35" column="7" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
             </state>
           </provider>
@@ -98,8 +110,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/SelectionSort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="54" column="22" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
+            <state relative-caret-position="380">
+              <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,10 +119,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
+            <state relative-caret-position="260">
               <caret line="52" column="56" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -167,10 +179,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sear</find>
-      <find>getmo</find>
-      <find>albero</find>
-      <find>getmovies</find>
       <find>size</find>
       <find>getall</find>
       <find>traver</find>
@@ -197,6 +205,10 @@
       <find>countmovies</find>
       <find>search</find>
       <find>getallp</find>
+      <find>if sb</find>
+      <find>searchmoviesb</find>
+      <find>getallMov</find>
+      <find>searchmoviesin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -212,10 +224,10 @@
         <option value="$PROJECT_DIR$/src/movida/commons/Movie.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/Utils.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/AVL.java" />
-        <option value="$PROJECT_DIR$/src/diachukvicenzi/SelectionSort.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/Btree.java" />
-        <option value="$PROJECT_DIR$/src/diachukvicenzi/MovidaCore.java" />
+        <option value="$PROJECT_DIR$/src/diachukvicenzi/SelectionSort.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/main.java" />
+        <option value="$PROJECT_DIR$/src/diachukvicenzi/MovidaCore.java" />
       </list>
     </option>
   </component>
@@ -282,7 +294,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1601485126341" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1601553891054" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -333,12 +345,12 @@
       <workItem from="1597832327279" duration="173000" />
       <workItem from="1600155109176" duration="20622000" />
       <workItem from="1601157623649" duration="7100000" />
-      <workItem from="1601462386790" duration="8287000" />
+      <workItem from="1601462386790" duration="10598000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62611000" />
+    <option name="totallyTimeSpent" value="64922000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -429,16 +441,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="52" column="50" lean-forward="true" selection-start-line="52" selection-start-column="50" selection-end-line="52" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/movida/commons/SortingAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -460,17 +462,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/movida/commons/Movie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-43">
-          <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
-          <folding>
-            <element signature="e#957#958#0" expanded="true" />
-            <element signature="e#982#983#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/movida/commons/Person.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="97">
@@ -488,6 +479,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/movida/commons/IMovidaSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1222">
+          <caret line="35" column="7" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/movida/commons/IMovidaDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-62">
@@ -495,10 +493,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/movida/commons/IMovidaSearch.java">
+    <entry file="file://$PROJECT_DIR$/src/movida/commons/Movie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1162">
-          <caret line="35" column="7" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+        <state relative-caret-position="-43">
+          <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
+          <folding>
+            <element signature="e#957#958#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -512,10 +514,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="52" column="56" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/SelectionSort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="54" column="22" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
+        <state relative-caret-position="380">
+          <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="53" column="39" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -524,8 +546,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Btree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="480" column="30" selection-start-line="480" selection-start-column="30" selection-end-line="480" selection-end-column="30" />
+        <state relative-caret-position="231">
+          <caret line="457" column="55" lean-forward="true" selection-start-line="457" selection-start-column="55" selection-end-line="457" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#15327#15328#0" expanded="true" />
@@ -538,18 +560,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/MovidaCore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="336" column="17" selection-start-line="336" selection-start-column="17" selection-end-line="336" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="52" column="56" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
+        <state relative-caret-position="60">
+          <caret line="249" column="70" lean-forward="true" selection-start-line="249" selection-start-column="70" selection-end-line="249" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
