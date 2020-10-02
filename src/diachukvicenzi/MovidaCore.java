@@ -243,7 +243,6 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
         }else{
             return btree.searchMoviesDirectedBy(name);
         }
-
     }
 
     @Override

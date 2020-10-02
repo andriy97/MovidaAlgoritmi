@@ -468,7 +468,7 @@ public class Btree {
     }
     public Person[] searchMostActiveActors(Integer N) {
         SelectionSort selectionSort=new SelectionSort();
-        Person[] attori=getAllPeople(); //da sostituire con getAllActors nel caso
+        Person[] attori=getAllActors();
         Person[] result;
         int max = attori.length;
         if (max < N) {
@@ -529,13 +529,26 @@ public class Btree {
             return getAllPeople().length;
     }
 
+    public Person[] getAllActors(){
+        Movie[] movies=getAllMovies();
+        Set<Person> peopleSet=new HashSet<>();
+        for(Movie movie:movies){
+            for(Person person:movie.getCast()) {
+                peopleSet.add(person);
+            }
+        }
+        Person[] people=new Person[peopleSet.size()];
+        return peopleSet.toArray(people);
+    }
+
     public Person[] getAllPeople(){
         Movie[] movies=getAllMovies();
         Set<Person> peopleSet=new HashSet<>();
         for(Movie movie:movies){
-            for(Person person:movie.getCast())
+            for(Person person:movie.getCast()) {
                 peopleSet.add(person);
-
+            }
+            peopleSet.add(movie.getDirector());
         }
         Person[] people=new Person[peopleSet.size()];
         return peopleSet.toArray(people);
