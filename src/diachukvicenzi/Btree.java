@@ -432,40 +432,7 @@ public class Btree {
         return null;
     }
 
-    public Movie[] searchMoviesByTitle(String k){
-        Movie[] movies=getAllMovies();
-        Set<Movie> movieSet=new HashSet<>();
-        for(Movie movie:movies){
-            if(movie.getTitle().contains(k)){
-                movieSet.add(movie);
-            }
-        }
-        movies=new Movie[movieSet.size()];
-        return movieSet.toArray(movies);
 
-    }
-    public Movie[] searchMoviesInYear(Integer year){
-        Movie[] movies=getAllMovies();
-        Set<Movie> movieSet=new HashSet<>();
-        for(Movie movie:movies){
-            if(movie.getYear()==year){
-                movieSet.add(movie);
-            }
-        }
-        movies=new Movie[movieSet.size()];
-        return movieSet.toArray(movies);
-    }
-    public Movie[] searchMoviesDirectedBy(String name){
-        Movie[] movies=getAllMovies();
-        Set<Movie> movieSet=new HashSet<>();
-        for(Movie movie:movies){
-            if(movie.getDirector().getName()==name){
-                movieSet.add(movie);
-            }
-        }
-        movies=new Movie[movieSet.size()];
-        return movieSet.toArray(movies);
-    }
     public Person[] searchMostActiveActors(Integer N) {
         SelectionSort selectionSort=new SelectionSort();
         Person[] attori=getAllActors();
@@ -484,20 +451,7 @@ public class Btree {
         return result;
     }
 
-    public Movie[] searchMoviesStarredBy(String name){
-        Movie[] movies=getAllMovies();
-        Set<Movie> movieSet=new HashSet<>();
-        for(Movie movie:movies){
-            for(Person actor:movie.getCast()){
-                if(actor.getName()==name){
-                    movieSet.add(movie);
-                }
 
-            }
-        }
-        movies=new Movie[movieSet.size()];
-        return movieSet.toArray(movies);
-    }
 
     public boolean deleteMovieByTitle(String k){
         if (getMovieByTitle(k)!=null){

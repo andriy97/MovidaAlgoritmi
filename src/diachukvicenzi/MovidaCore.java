@@ -9,12 +9,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
+public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMovidaCollaborations {
 
 //IMovidaConfig
 
     private SortingAlgorithm algorithm = SortingAlgorithm.QuickSort;
-    private MapImplementation structure = MapImplementation.AVL;
+    private MapImplementation structure = MapImplementation.BTree;
     final private AVL avl=new AVL();
     final private Btree btree=new Btree();
     final private QuickSort quickSort=new QuickSort();
@@ -104,14 +104,8 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     @Override
     public void saveToFile(File f) { //fare getAllMovies e togliere if else
 
-        if(AVL()) { //da ottimizzare
-            Movies = avl.getMovieSet();
-            Movie[] film = new Movie[Movies.size()];
-            Movies.toArray(film);
-            Utils.saveFile(f, film);
-        }else{
-            Utils.saveFile(f, btree.getAllMovies());
-        }
+            Utils.saveFile(f, getAllMovies());
+
     }
 
     @Override
@@ -175,12 +169,9 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Movie[] getAllMovies() { //funzia da migliorare if
+    public Movie[] getAllMovies() { //funzia
         if(AVL()){
-            Movies=avl.getMovieSet();
-            Movie[] film=new Movie[Movies.size()];
-            Movies.toArray(film);
-            return film;
+           return Utils.toArrayMovie(avl.getMovieSet());
         }else{
             return btree.getAllMovies();
         }
@@ -188,21 +179,17 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
     }
 
     @Override
-    public Person[] getAllPeople() { //funzia, cerca solo nel cast, forse da fare anche registi
+    public Person[] getAllPeople() { //funzia
         if(AVL()){
-            Set<Person> person = avl.getPersonSet();
-            Person[] persone=new Person[person.size()];
-            person.toArray(persone);
-
-            return persone;
+            return Utils.toArrayPerson(avl.getPersonSet());
         }else{
             return btree.getAllPeople();
         }
     }
 
     @Override
-    public Movie[] searchMoviesByTitle(String title) { //Funzia, togliere if else
-        if(AVL()){
+    public Movie[] searchMoviesByTitle(String title) { //Funzia
+
             Movie[] movie=getAllMovies();
             Set<Movie> film;
             film = new HashSet<>();
@@ -213,53 +200,52 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
             }
             movie=new Movie[film.size()];
             return film.toArray(movie);
-        }else{
-           return btree.searchMoviesByTitle(title);
-        }
-
     }
 
     @Override
-    public Movie[] searchMoviesInYear(Integer year) { //funzia, togliere if else, copiare da search by title
-        if (AVL()){
-            Movies=avl.getMovieYearSet(year);
-            Movie[] film=new Movie[Movies.size()];
-            Movies.toArray(film);
-            return film;
-        }else{
-            return btree.searchMoviesInYear(year);
+    public Movie[] searchMoviesInYear(Integer year) { //funzia
+        Movie[] movie=getAllMovies();
+        Set<Movie> film;
+        film = new HashSet<>();
+        for (Movie x : movie) {
+            if(x.getYear()==year){
+                film.add(x);
+            }
         }
-
+        movie=new Movie[film.size()];
+        return film.toArray(movie);
     }
 
     @Override
 
-    public Movie[] searchMoviesDirectedBy(String name) { //Funzia, uguale a by title cambiare solo condizione
-        if(AVL()){
-            Movies=avl.searchMoviesDirectedBy(name);
-            Movie[] film=new Movie[Movies.size()];
-            Movies.toArray(film);
-            return film;
-        }else{
-            return btree.searchMoviesDirectedBy(name);
+    public Movie[] searchMoviesDirectedBy(String name) { //Funzia
+        Movie[] movie=getAllMovies();
+        Set<Movie> film;
+        film = new HashSet<>();
+        for (Movie x : movie) {
+            if(x.getDirector().getName().contains(name)){
+                film.add(x);
+            }
         }
+        movie=new Movie[film.size()];
+        return film.toArray(movie);
     }
 
     @Override
-    public Movie[] searchMoviesStarredBy(String name) { //if sbagliato, anche qui togliere if
-        if(AVL()){
+    public Movie[] searchMoviesStarredBy(String name) { //Funzia
+
             Movie[] movie=getAllMovies();
             Set<Movie> result  = new HashSet<>();
             for (int i = 0; i < movie.length; i++) {
-                if(movie[i].getTitle().contains(name)){
-                    result.add(movie[i]);
+                for (Person p:movie[i].getCast() ) {
+                    if(p.getName().contains(name)){
+                        result.add(movie[i]);
+                    }
                 }
             }
             movie=new Movie[result.size()];
             return result.toArray(movie);
-        }else {
-           return btree.searchMoviesStarredBy(name);
-        }
+
 
 
     }
@@ -315,35 +301,51 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch {
 
     @Override
     public Person[] searchMostActiveActors(Integer N) { //crea getallactors e togli if
-        if(AVL()) {
+        Person[] x;
+        if(AVL()){
             avl.getPersonSet();
-            Person[] x = avl.getPersonSet1();
-            printArray(x);
-            Person[] result;
-            int max = x.length;
-            if (max < N) {
-                N = max;
-                result = new Person[max];
-            } else result = new Person[N];
-            x = quickSort.sort(x, 0, max - 1, 0);
-
-            for (int i = 0; i < N; i++) {
-                result[i] = x[i];
-            }
-
-            return result;
+            x = avl.getPersonSet1();
         }else{
-           return btree.searchMostActiveActors(N);
+            x=btree.getAllActors();
         }
+        Person[] result;
+        int max = x.length;
+        if (max < N) {
+            N = max;
+            result = new Person[max];
+        } else result = new Person[N];
+
+        if (SelSort()) {
+            x = selectionSort.sort(x);
+        } else {
+            x = quickSort.sort(x, 0, max - 1, 0);
+        }
+        for (int i = 0; i < N; i++) {
+            result[i] = x[i];
+        }
+        return result;
+
+
     }
 
-    static void printArray(Person[] movie)
-    {
-        int n = movie.length;
-        for (int i=0; i<n; ++i)
-            System.out.println(movie[i].getFilmCount()+" "+movie[i].getName());
-        System.out.println();
+
+    //ImovidaCollaborations
+    @Override
+    public Person[] getDirectCollaboratorsOf(Person actor){
+
+
     }
+
+    @Override
+    public Person[] getTeamOf(Person actor){
+
+    }
+
+    @Override
+    public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){
+
+    }
+
 }
 
 

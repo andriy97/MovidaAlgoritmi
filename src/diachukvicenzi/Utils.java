@@ -83,6 +83,18 @@ public class Utils {
         return result.substring(0, result.length() - 1);
     }
 
+
+    public static Movie[] toArrayMovie (Set<Movie> set){
+        Movie[] film=new Movie[set.size()];
+        set.toArray(film);
+        return film;
+    }
+
+    public static Person[] toArrayPerson (Set<Person> set){
+        Person[] film=new Person[set.size()];
+        set.toArray(film);
+        return film;
+    }
     }
 
 

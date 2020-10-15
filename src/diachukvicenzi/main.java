@@ -1,11 +1,16 @@
 package diachukvicenzi;
 
+import movida.commons.MapImplementation;
 import movida.commons.Movie;
 import movida.commons.Person;
+
+import java.io.File;
 
 public class main {
 
     public static void main(String[] args){
+
+        /*
         Btree btree=new Btree();
         SelectionSort selectionSort =new SelectionSort();
         Person persona = new Person("Filippo", "attore", 3);
@@ -53,7 +58,18 @@ public class main {
         for(Person person:btree.searchMostActiveActors(0)){
             System.out.println(person.getName());
         }
+*/
 
+        MovidaCore movidaCore=new MovidaCore();
+
+
+        File file= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/esempio-formato-dati.txt");
+        movidaCore.loadFromFile(file);
+        Movie[] movies=movidaCore.getAllMovies();
+        for(Movie movie:movies){
+            System.out.println(movie.getTitle());
+
+        }
 
 
 
