@@ -11,6 +11,9 @@ import java.util.Set;
 
 public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMovidaCollaborations {
 
+    public MovidaCore(){
+        this.grafo = new Graph();
+    }
 //IMovidaConfig
 
     private SortingAlgorithm algorithm = SortingAlgorithm.QuickSort;
@@ -20,6 +23,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     final private QuickSort quickSort=new QuickSort();
     final SelectionSort selectionSort=new SelectionSort();
     private Set<Movie> Movies;
+    private Graph grafo;
 
     public boolean mySort (SortingAlgorithm a) { //ritorna 1 se è tra quei due, 0 altrimenti
         return a == SortingAlgorithm.QuickSort || a == SortingAlgorithm.SelectionSort;
@@ -333,7 +337,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     @Override
     public Person[] getDirectCollaboratorsOf(Person actor){
 
-
+        return grafo.getDirectCollaborators(actor);
     }
 
     @Override
