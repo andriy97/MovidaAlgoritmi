@@ -68,8 +68,9 @@ public class main {
         Movie[] movies=movidaCore.getAllMovies();
         for(Movie movie:movies){
             System.out.println(movie.getTitle());
-
         }
+
+
 
 
 

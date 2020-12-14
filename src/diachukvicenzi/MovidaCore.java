@@ -84,6 +84,9 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
 
                 Movie movie = new Movie(Titolo, Integer.parseInt(Anno), Integer.parseInt(Voti), Cast, Regista);
 
+                // aggiungo le collaborazioni al grafo
+                grafo.extractMovieCollaborations(movie);
+
                 if(AVL()){
                     avl.insert(movie);
                 }else{
@@ -343,12 +346,15 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     @Override
     public Person[] getTeamOf(Person actor){
 
+        return grafo.getTeam(actor);
     }
 
     @Override
     public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){
 
+        return grafo.maximizeCollaborationsInTheTeam(actor);
     }
+
 
 }
 
