@@ -6,49 +6,42 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Btree {
-    public BTreeNode root; // Pointer to root node
-    public int t; // Minimum degree
-    int size = 0; //size of tree;
+    public BTreeNode root; // puntatore al nodo radice
+    public int t; // grado minimo, ogni nodo ha max 2t-1 chiavi dentro (nel nostro caso 5) e max 2t figli (6)
+    int size = 0; // numero movie presenti
 
-    // Constructor (Initializes tree as empty)
+    // Costruttore
     Btree() {
         this.root = null;
-        this.t = 3; //the degree of BTree will always be 3
+        this.t = 3; //il grado sarà sempre 3
     }
 
-    // function to traverse the tree
+    // visita albero
     public void traverse() {
         if (this.root != null)
             this.root.traverse();
         System.out.println();
     }
 
-    // function to search a key in this tree
-    public BTreeNode searchKey(Movie k) {
-        if (this.root == null)
-            return null;
-        else
-            return this.root.searchFromThisNode(k);
-    }
-
+    //inserisci movie k in posizione adeguata
     void insert(Movie k) {
         size++;
-        if(root == null) {
+        if(root == null) { //se l'albero è vuoto inserisco il movie come prima chiave del nodo root
             root = new BTreeNode(t,true);
             root.keys[0] = k;
-            root.n = 1;
+            root.n = 1; //attuale numero delle chiavi presenti nel nodo
         }else {
-            if(root.n == 2*t-1) {
-                BTreeNode s = new BTreeNode(t,false);
-                s.C[0] = root;
-                s.splitChild(0,root);
+            if(root.n == 2*t-1) { //il caso in cui il nodo sia pieno devo creare un nuovo nodo
+                BTreeNode s = new BTreeNode(t,false); //creo nuovo nodo
+                s.C[0] = root; //metto root come figlio del nodo che ho creato
+                s.splitChild(0,root); //faccio lo split del nodo root
                 int i=0;
-                if(s.keys[0].compareTo(k) < 1) {
+                if(s.keys[0].compareTo(k) < 1) { //se la prima chiave del nodo s è "più piccola" o uguale a k significa che k deve andare nel figlio destro
                     i++;
                 }
-                s.C[i].insertNonFull(k);
-                root = s;
-            }else {
+                s.C[i].insertNonFull(k); //inserisco k nel figlio destro o sinistro a seconda di dove deve andare
+                root = s; //faccio diventare s il nuovo nodo radice
+            }else { //il caso in cui il nodo abbia ancora dello spazio inserisco k nella posizione giusta
                 root.insertNonFull(k);
             }
         }
@@ -56,31 +49,37 @@ public class Btree {
 
     void remove(Movie k) {
         size--;
-        if(root == null) {
-            System.out.println("Empty tree");
+        if(root == null) { //se il nodo radice è null non ho nulla da eliminare
+            System.out.println("Albero vuoto");
             return;
         }
-        root.removeFromNode(k);
-        if(root.n == 0) {
-            BTreeNode tmp = root;
-            if(root.leaf)
+        root.removeFromNode(k); //elimino k dal nodo
+        if(root.n == 0) { //se il numero di chiavi nel diventa 0 devo eliminare il nodo e aggiustare la struttura dell'albero
+            if(root.leaf) //se era un nodo foglia semplicemente elimino il nodo quindi l'albero diventa vuoto
                 root = null;
-            else
+            else //se aveva dei figli faccio diventare root il primo figlio
                 root = root.C[0];
         }
         return;
     }
 
+    // cerca chiave nell'albero
+    public BTreeNode searchKey(Movie k) { //la chiave è il movie in questione
+        if (this.root == null) //se è vuoto ritorno null
+            return null;
+        else
+            return this.root.searchFromThisNode(k); //altrimenti chiamo la funzione del BTreeNode root per cercare da lì in poi
+    }
 
     // A BTree node
     class BTreeNode {
-        Movie[] keys; // An array of keys
-        int t; // Minimum degree (defines the range for number of keys)
-        BTreeNode[] C; // An array of child pointers
-        int n; // Current number of keys
-        boolean leaf; // Is true when node is leaf. Otherwise false
+        Movie[] keys; // array di chiavi
+        int t; // grado minimo
+        BTreeNode[] C; // array di figli
+        int n; // attuale numero di chiavi
+        boolean leaf; // vero se il nodo è una foglia, falso altrimenti
 
-        // Constructor
+        // Costruttore
         BTreeNode(int t, boolean leaf) {
             this.t = t;
             this.leaf = leaf;
@@ -88,7 +87,7 @@ public class Btree {
             this.C = new BTreeNode[2 * t];
             this.n = 0;
         }
-
+        //scorre l'indice delle chiavi del nodo finché non arriva alla posizione che dovrebbe contenere la chiave da eliminare
         public int findKey(Movie k) {
             int idx = 0;
             while (idx<n && keys[idx].compareTo(k) < 0)
@@ -96,22 +95,22 @@ public class Btree {
             return idx;
         }
 
-
+        //elimina movie dal nodo
         public void removeFromNode(Movie k) {
-            int idx = findKey(k);
-            if(idx < n && keys[idx].equals(k)) {
-                if(leaf)
+            int idx = findKey(k); //indice chiave da rimuovere
+            if(idx < n && keys[idx].equals(k)) { //se k corrisponde alla chiave che si trova in quell'indice
+                if(leaf) //se il nodo da cui sto eliminando è una foglia
                     removeFromLeaf(idx);
                 else
                     removeFromNonLeaf(idx);
-            }else {
+            }else { //significa che movie k non esiste nell'albero oppure si trova in un sottoalbero
                 if(leaf) {
-                    System.out.println("The key "+k+" does not exist in tree");
+                    System.out.println("La chiave "+k+" non esiste");
                     return;
                 }
-                boolean flag = ((idx==n)? true : false);
-                if(C[idx].n < t)
-                    fill(idx);
+                boolean flag = ((idx==n)? true : false); //true se idx è l'ultima chiave nel nodo
+                if(C[idx].n < t) //se il numero di chiavi nel figlio è minore del grado minimo
+                    fill(idx); //devo aggiungerci una chiave da uno dei nodi adiacenti o fare merge
                 if(flag && idx > n)
                     C[idx - 1].removeFromNode(k);
                 else
@@ -121,11 +120,11 @@ public class Btree {
         }
 
         public void removeFromLeaf(int idx) {
-            // Move all the keys after the idx-th pos one place backward
+            //sposta tutte le chiavi dopo idx una posizione indietro
             for (int i=idx+1; i<n; ++i)
                 keys[i-1] = keys[i];
 
-            // Reduce the count of keys
+            //diminuisci numero chiavi
             n--;
 
             return;
@@ -134,10 +133,8 @@ public class Btree {
         public void removeFromNonLeaf(int idx) {
             Movie k = keys[idx];
 
-            // If the child that precedes k (C[idx]) has atleast t keys,
-            // find the predecessor 'pred' of k in the subtree rooted at
-            // C[idx]. Replace k by pred. Recursively delete pred
-            // in C[idx]
+            //se il figlio che precede k (C[idx]) ha almeno t chiavi, trova il predecessore di k (pred)
+            //nel sottoalbero con radice C[idx], mette pred al posto di k e elimina ricorsivamente pred in C[idx]
             if (C[idx].n >= t)
             {
                 Movie pred = getPred(idx);
@@ -145,11 +142,8 @@ public class Btree {
                 C[idx].removeFromNode(pred);
             }
 
-            // If the child C[idx] has less that t keys, examine C[idx+1].
-            // If C[idx+1] has atleast t keys, find the successor 'succ' of k in
-            // the subtree rooted at C[idx+1]
-            // Replace k by succ
-            // Recursively delete succ in C[idx+1]
+            //se il figlio C[idx] ha meno di t chiavi, esamina C[idx+1]. Se ha almeno t chiavi trova il successore (succ)
+            //di k nel sottoalbero con radice C[idx+1]. mette succ al posto di k e elimina succ
             else if  (C[idx+1].n >= t)
             {
                 Movie succ = getSucc(idx);
@@ -157,10 +151,8 @@ public class Btree {
                 C[idx+1].removeFromNode(succ);
             }
 
-            // If both C[idx] and C[idx+1] has less that t keys,merge k and all of C[idx+1]
-            // into C[idx]
-            // Now C[idx] contains 2t-1 keys
-            // Free C[idx+1] and recursively delete k from C[idx]
+            //se sia C[idx] che C[idx+1] hanno meno di t chiavi si fa il merge tra k e tutti i C[idx+1] formando C[idx]
+            //ora C[idx] ha 2t+1 chiavi. Si libera C[idx+1] e si elimina k da C[idx]
             else
             {
                 merge(idx);
@@ -170,39 +162,37 @@ public class Btree {
         }
 
         public Movie getPred(int idx) {
-            // Keep moving to the right most node until we reach a leaf
+            //mi sposto sul nodo più a destra finché non arrivo alla foglia
             BTreeNode cur = C[idx];
             while (!cur.leaf)
                 cur = cur.C[cur.n];
 
-            // Return the last key of the leaf
+            // ritorno l'ultima chiave della foglia
             return cur.keys[cur.n-1];
         }
 
         public Movie getSucc(int idx) {
-            // Keep moving the left most node starting from C[idx+1] until we reach a leaf
+            //mi sposto sul nodo più a sinistraa partire da C[idx+1] finché non arrivo alla foglia
             BTreeNode cur = C[idx+1];
             while (!cur.leaf)
                 cur = cur.C[0];
 
-            // Return the first key of the leaf
+            // ritorno la prima chiave della foglia
             return cur.keys[0];
         }
 
         public void fill(int idx) {
-            // If the previous child(C[idx-1]) has more than t-1 keys, borrow a key
-            // from that child
+
+            //se C[idx-1] ha piu di t-1 chiavi rubo una chiave a lui
             if (idx!=0 && C[idx-1].n >= t)
                 borrowFromPrev(idx);
 
-                // If the next child(C[idx+1]) has more than t-1 keys, borrow a key
-                // from that child
+                //se C[idx+1] ha piu di t-1 chiavi rubo una chiave a lui
             else if (idx!=n && C[idx+1].n >= t)
                 borrowFromNext(idx);
 
-                // Merge C[idx] with its sibling
-                // If C[idx] is the last child, merge it with with its previous sibling
-                // Otherwise merge it with its next sibling
+            //faccio merge di C[idx] coi suoi fratelli, se è l'ultimo lo mergo con il precedente,
+                // altrimenti col prossimo
             else
             {
                 if (idx != n)
@@ -217,30 +207,29 @@ public class Btree {
             BTreeNode child = C[idx];
             BTreeNode sibling = C[idx-1];
 
-            // The last key from C[idx-1] goes up to the parent and key[idx-1]
-            // from parent is inserted as the first key in C[idx]. Thus, the  loses
-            // sibling one key and child gains one key
+            //l'ultima chiave di C[idx-1] va al nodo parent e la chiave keys[idx-1] dal nodo parent viene
+            //inserita come prima chiave in C[idx]. child guadagna una chiave e sibling ne perde una
 
-            // Moving all key in C[idx] one step ahead
+
+            //Sposto tutte le chiavi in C[idx] un posto avanti
             for (int i=child.n-1; i>=0; --i)
                 child.keys[i+1] = child.keys[i];
 
-            // If C[idx] is not a leaf, move all its child pointers one step ahead
+            //se C[idx] non è una foglia allora muovo tutti i suoi figli un posto avanti
             if (!child.leaf)
             {
                 for(int i=child.n; i>=0; --i)
                     child.C[i+1] = child.C[i];
             }
 
-            // Setting child's first key equal to keys[idx-1] from the current node
+            //setto la prima chiave di child uguale a keys[idx-1] del nodo attuale
             child.keys[0] = keys[idx-1];
 
-            // Moving sibling's last child as C[idx]'s first child
+            //metto l'ultimo figlio di sibling come primo figlio di child
             if(!child.leaf)
                 child.C[0] = sibling.C[sibling.n];
 
-            // Moving the key from the sibling to the parent
-            // This reduces the number of keys in the sibling
+            //sposto la chiave dal sibling al suo nodo parent
             keys[idx-1] = sibling.keys[sibling.n-1];
 
             child.n += 1;
@@ -254,30 +243,30 @@ public class Btree {
             BTreeNode child = C[idx];
             BTreeNode sibling = C[idx+1];
 
-            // keys[idx] is inserted as the last key in C[idx]
+            // metto keys[idx] come ultima chiave in C[idx]
             child.keys[(child.n)] = keys[idx];
 
             // Sibling's first child is inserted as the last child
             // into C[idx]
+            //il primo figlio di sibling lo metto come ultimo figlio di C[idx]
             if (!(child.leaf))
                 child.C[(child.n)+1] = sibling.C[0];
 
-            //The first key from sibling is inserted into keys[idx]
+            //la prima chiave di sibling la metto in keys[idx]
             keys[idx] = sibling.keys[0];
 
-            // Moving all keys in sibling one step behind
+            //sposto tutte le chiavi in sibling una posizione indietro
             for (int i=1; i<sibling.n; ++i)
                 sibling.keys[i-1] = sibling.keys[i];
 
-            // Moving the child pointers one step behind
+            // sposto i puntatori ai figli una posizione indietro
             if (!sibling.leaf)
             {
                 for(int i=1; i<=sibling.n; ++i)
                     sibling.C[i-1] = sibling.C[i];
             }
 
-            // Increasing and decreasing the key count of C[idx] and C[idx+1]
-            // respectively
+            // incremento e decremento i numeri delle chiavi in C[idx] e C[idx+1] rispettivamente
             child.n += 1;
             sibling.n -= 1;
 
@@ -288,60 +277,57 @@ public class Btree {
             BTreeNode child = C[idx];
             BTreeNode sibling = C[idx+1];
 
-            // Pulling a key from the current node and inserting it into (t-1)th
-            // position of C[idx]
+            //tolgo una chiave dal nodo attuale e la inserisco nella posizione t-1 di C[idx]
             child.keys[t-1] = keys[idx];
 
             // Copying the keys from C[idx+1] to C[idx] at the end
+            //copio le chiavi da C[idx+1] in C[idx]
             for (int i=0; i<sibling.n; ++i)
                 child.keys[i+t] = sibling.keys[i];
 
-            // Copying the child pointers from C[idx+1] to C[idx]
+            //copio i puntatori ai figli da C[idx+1] a C[idx]
             if (!child.leaf)
             {
                 for(int i=0; i<=sibling.n; ++i)
                     child.C[i+t] = sibling.C[i];
             }
 
-            // Moving all keys after idx in the current node one step before -
-            // to fill the gap created by moving keys[idx] to C[idx]
+            //muovo tutte le chiavi dopo idx del nodo attuale un passo indietro per
+            //riempire il buco creatosi dopo aver spostato keys[idx] in C[idx]
             for (int i=idx+1; i<n; ++i)
                 keys[i-1] = keys[i];
 
-            // Moving the child pointers after (idx+1) in the current node one
-            // step before
+
+            //muovo i puntatori ai figli dopo idx+1 del nodo attuale un passo indietro
             for (int i=idx+2; i<=n; ++i)
                 C[i-1] = C[i];
 
-            // Updating the key count of child and the current node
+            //aggiorno il numero delle chiavi di child e nodo attuale
             child.n += sibling.n+1;
             n--;
 
             return;
         }
 
-        // A function to traverse all nodes in a subtree rooted with this node
+        // visita del sottoalbero a partire dal nodo attuale
         public void traverse() {
-            // There are n keys and n+1 children, travers through n keys
-            // and first n children
+
             int i = 0;
             for (i = 0; i < this.n; i++) {
 
-                // If this is not leaf, then before printing key[i],
-                // traverse the subtree rooted with child C[i].
                 if (this.leaf == false) {
                     C[i].traverse();
                 }
                 System.out.println(keys[i] + " ");
             }
 
-            // Print the subtree rooted with last child
             if (leaf == false)
                 C[i].traverse();
         }
 
-        // A function to search a key in the subtree rooted with this node.
-        BTreeNode searchFromThisNode(Movie k) { // returns NULL if k is not present.
+
+        //cerca una chiave nel sottoalbero a partire da questo nodo
+        BTreeNode searchFromThisNode(Movie k) { // ritorna null se k non presente
 
             // Find the first key greater than or equal to k
             int i = 0;

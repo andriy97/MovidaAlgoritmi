@@ -10,20 +10,27 @@ import java.util.Map;
 import java.util.Set;
 
 public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMovidaCollaborations {
+    private SortingAlgorithm algorithm;
+    private MapImplementation structure;
+    final private AVL avl;
+    final private Btree btree;
+    final private QuickSort quickSort;
+    final SelectionSort selectionSort;
+    private Graph grafo;
+
 
     public MovidaCore(){
-        this.grafo = new Graph();
+        algorithm = SortingAlgorithm.QuickSort;
+        structure = MapImplementation.BTree;
+        avl=new AVL();
+        btree=new Btree();
+        quickSort=new QuickSort();
+        selectionSort=new SelectionSort();
+        grafo=new Graph();
     }
 //IMovidaConfig
 
-    private SortingAlgorithm algorithm = SortingAlgorithm.QuickSort;
-    private MapImplementation structure = MapImplementation.BTree;
-    final private AVL avl=new AVL();
-    final private Btree btree=new Btree();
-    final private QuickSort quickSort=new QuickSort();
-    final SelectionSort selectionSort=new SelectionSort();
-    private Set<Movie> Movies;
-    private Graph grafo;
+
 
     public boolean mySort (SortingAlgorithm a) { //ritorna 1 se è tra quei due, 0 altrimenti
         return a == SortingAlgorithm.QuickSort || a == SortingAlgorithm.SelectionSort;

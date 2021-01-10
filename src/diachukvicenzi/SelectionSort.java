@@ -6,6 +6,7 @@ import movida.commons.Person;
 public class SelectionSort {
 
     public Movie[] sort(Movie[] array, String s) {
+
         for(int i = 0; i < array.length-1; i++) {
             int minimo = i; //Partiamo dall' i-esimo elemento
             for(int j = i+1; j < array.length; j++) {
