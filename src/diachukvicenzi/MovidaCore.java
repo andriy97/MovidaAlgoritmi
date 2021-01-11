@@ -104,7 +104,6 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
                 // per scorrere la linea vuota
                 s=br.readLine();
             }
-            //grafo.ciao();
 
         }  catch (FileNotFoundException e) {
             e.printStackTrace();

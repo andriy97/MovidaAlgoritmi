@@ -1,9 +1,6 @@
 package diachukvicenzi;
 
-import movida.commons.MapImplementation;
-import movida.commons.Movie;
-import movida.commons.Person;
-import movida.commons.SortingAlgorithm;
+import movida.commons.*;
 
 import java.io.File;
 
@@ -71,10 +68,10 @@ public class main {
         movidaCore.loadFromFile(file);
         Person attore=movidaCore.getPersonByName("Harrison Ford");
 
-        Person[] person=movidaCore.getTeamOf(attore);
+        Collaboration[] person=movidaCore.maximizeCollaborationsInTheTeamOf(attore);
 
-        for(Person per:person){
-            System.out.println(per.getName());
+        for(Collaboration per:person){
+            System.out.println(per.getActorA().getName() +" "+per.getScore()+" "+per.getActorB().getName());
         }
 
 

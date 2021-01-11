@@ -39,16 +39,15 @@ public class Graph {
         mark.add(actor);
         team.add(actor);
         q.add(actor);
-        while (q.isEmpty()==false){
+        while (!q.isEmpty()){
             Person u=q.poll();
             for(Collaboration c: this.grafo.get(u.getName())){
 
                     Person v=c.getActorB();
-                    if(mark.contains(v)==false){
-
-                        mark.add(v);
-                        team.add(v);
-                        q.add(v);
+                    if(!mark.contains(v)&&!v.getName().equals(actor.getName())){
+                            mark.add(v);
+                            team.add(v);
+                            q.add(v);
 
                     }
 
@@ -64,7 +63,7 @@ public class Graph {
         HashSet<Person> mark=new HashSet<>();//insieme degli attori già marcati
         ArrayList<Collaboration> collabs=new ArrayList<>();//lista delle collaborazioni nel MST
         PriorityQueue<Collaboration> q=new PriorityQueue<Collaboration>(new SortCollaborations());//contiene le collaborazioni da valutare
-        for(Collaboration c: this.grafo.get(actor)){//in questo ciclo,inserisco
+        for(Collaboration c: this.grafo.get(actor.getName())){//in questo ciclo,inserisco
             q.add(c);                               //le collaborazioni dell'attore iniziale
         }
         while (!q.isEmpty()){
@@ -74,7 +73,7 @@ public class Graph {
                 mark.add(e.getActorA());//aggiungo i due attori del team ai visitati(li marco!)
                 mark.add(e.getActorB());//nb: actorA sarà semprè già nel mark,non succede niente in questo caso!
                 collabs.add(e);//aggiungi la collaborazione a quelle del MST
-                for(Collaboration c:this.grafo.get(e.getActorB())){//per ogni arco uscente dell'attore appena marcato(quello collaborante)
+                for(Collaboration c:this.grafo.get(e.getActorB().getName())){//per ogni arco uscente dell'attore appena marcato(quello collaborante)
                     if(!mark.contains(c.getActorB())){//se l'arco incide su un nodo non ancora marcato
                         q.add(c);
                     }
