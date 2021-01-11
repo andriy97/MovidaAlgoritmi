@@ -14,6 +14,9 @@ public class Collaboration {
 		this.movies = new ArrayList<Movie>();
 	}
 
+	public ArrayList<Movie> film(){
+		return movies;
+	}
 	public Person getActorA() {
 		return actorA;
 	}
@@ -35,5 +38,12 @@ public class Collaboration {
 
 		return score / movies.size();
 	}
+	@Override
+	public boolean equals(Object obj) {
+		Collaboration c=(Collaboration) obj;
+		return (this.getActorA().equals(c.getActorA()) && this.getActorB().equals(c.getActorB())
+				|| this.getActorA().equals(c.getActorB()) && this.getActorB().equals(c.getActorA()));
+	}
+
 
 }

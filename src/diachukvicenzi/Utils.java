@@ -36,7 +36,7 @@ public class Utils {
 
                 index = array[i].indexOf(',');
                 array[i]=array[i].substring(index+1);
-                Person persona=new Person(array[i],Att,1);
+                Person persona=new Person(array[i].trim(),Att,1);
                 cast[i]=persona;
 
             }

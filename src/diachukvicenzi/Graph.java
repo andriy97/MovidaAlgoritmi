@@ -9,14 +9,15 @@ import java.util.*;
 public class Graph {
 
 
-    private HashMap<Person, ArrayList<Collaboration>> grafo;
+    private HashMap<String, ArrayList<Collaboration>> grafo;
 
     Graph(){
         this.grafo=new HashMap<>();
     }
 
+
     public Person[] getDirectCollaborators(Person actor){
-        ArrayList<Collaboration> collaborazioni=this.grafo.get(actor);//ottieni la lista di collaborazioni dell'attore
+        ArrayList<Collaboration> collaborazioni=this.grafo.get(actor.getName());//ottieni la lista di collaborazioni dell'attore
         Person[] persona=new Person[collaborazioni.size()];//crea un array di ugual grandezza
         int i=0;
         for(Collaboration collaborazione : collaborazioni){//lo riempio con i nomi degli attore COLLABORANTI
@@ -40,13 +41,18 @@ public class Graph {
         q.add(actor);
         while (q.isEmpty()==false){
             Person u=q.poll();
-            for(Collaboration c: this.grafo.get(u)){
-                Person v=c.getActorB();
-                if(mark.contains(v)==false){
-                    mark.add(v);
-                    team.add(v);
-                    q.add(v);
-                }
+            for(Collaboration c: this.grafo.get(u.getName())){
+
+                    Person v=c.getActorB();
+                    if(mark.contains(v)==false){
+
+                        mark.add(v);
+                        team.add(v);
+                        q.add(v);
+
+                    }
+
+
             }
         }
         Person[] array= new Person[team.size()];
@@ -88,13 +94,15 @@ public class Graph {
     }
 
     public void extractMovieCollaborations(Movie m){//estrae le varie collaborazioni da un film
-        for(Person actorInExam: m.getCast()){
-            if (this.grafo.containsKey(actorInExam)==false){//se l'attore non è ancora stato aggiunto
-                this.grafo.put(actorInExam,new ArrayList<>());//aggiungilo
+
+        for(Person actorInExam: m.getCast()){ //per ogni attore nel cast
+            if (this.grafo.containsKey(actorInExam.getName())==false){//se l'attore non è ancora stato aggiunto
+                this.grafo.put(actorInExam.getName(),new ArrayList<>());//aggiungilo
+               // System.out.println("ATTORE "+actorInExam.getName());
             }
             for (Person actor: m.getCast()){//per ogni persona del cast del film
-                if(!actorInExam.equals(actor)){//che sia diversa dall'attore in esame
-                    ArrayList<Collaboration> colls=this.grafo.get(actorInExam);//ottieni le collaborazioni dell'attore
+                if(!actorInExam.getName().trim().equals(actor.getName().trim())){//che sia diversa dall'attore in esame
+                    ArrayList<Collaboration> colls=this.grafo.get(actorInExam.getName());//ottieni le collaborazioni dell'attore
                     Collaboration c= new Collaboration(actorInExam,actor);//crea una nuova collaborazione
                     if(colls.contains(c)){//se contiene già la collaborazione
                         int index=colls.indexOf(c);//valla a prendere e aggiungici il film
