@@ -53,7 +53,7 @@ public class Graph {
 
     //Opposto del problema del Minimum Spanning Tree
     public Collaboration[] maximizeCollaborationsInTheTeam(Person actor){
-        HashSet<Person> visited=new HashSet<>();//insieme degli attori già marcati
+        HashSet<String> visited=new HashSet<>();//insieme degli attori già marcati
         ArrayList<Collaboration> collabs=new ArrayList<>();//lista delle collaborazioni nel MST
         PriorityQueue<Collaboration> q=new PriorityQueue<Collaboration>(new SortCollaborations());//contiene le collaborazioni da valutare
         for(Collaboration c: this.grafo.get(actor.getName())){//in questo ciclo,inserisco
@@ -62,12 +62,12 @@ public class Graph {
         while (!q.isEmpty()){
             Collaboration e=q.poll();//prendo il massimo nella coda,la collaborazione con più score
             // la collaborazione può essere vista come un arco (u,v) di costo w(score)
-            if(!visited.contains(e.getActorB())){//se l'attore collaborante( nell'arco (u,v) è v!!) non è marcato
-                visited.add(e.getActorA());//aggiungo i due attori del team ai visitati(li marco!)
-                visited.add(e.getActorB());//nb: actorA sarà semprè già nel mark,non succede niente in questo caso!
+            if(!visited.contains(e.getActorB().getName())){//se l'attore collaborante( nell'arco (u,v) è v!!) non è marcato
+                visited.add(e.getActorA().getName());//aggiungo i due attori del team ai visitati(li marco!)
+                visited.add(e.getActorB().getName());//nb: actorA sarà semprè già nel mark,non succede niente in questo caso!
                 collabs.add(e);//aggiungi la collaborazione a quelle del MST
                 for(Collaboration c:this.grafo.get(e.getActorB().getName())){//per ogni arco uscente dell'attore appena marcato(quello collaborante)
-                    if(!visited.contains(c.getActorB())){//se l'arco incide su un nodo non ancora marcato
+                    if(!visited.contains(c.getActorB().getName())){//se l'arco incide su un nodo non ancora marcato
                         q.add(c);
                     }
                 }
