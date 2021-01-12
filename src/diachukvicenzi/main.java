@@ -66,12 +66,12 @@ public class main {
 
         File file= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/esempio-formato-dati.txt");
         movidaCore.loadFromFile(file);
-        Person attore=movidaCore.getPersonByName("Harrison Ford");
+        Person attore=movidaCore.getPersonByName("Robert De Niro");
 
-        Collaboration[] person=movidaCore.maximizeCollaborationsInTheTeamOf(attore);
+        Person[] person=movidaCore.getTeamOf(attore);
 
-        for(Collaboration per:person){
-            System.out.println(per.getActorA().getName() +" "+per.getScore()+" "+per.getActorB().getName());
+        for(Person per:person){
+            System.out.println(per.getName());
         }
 
 
