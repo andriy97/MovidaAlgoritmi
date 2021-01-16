@@ -61,19 +61,33 @@ public class main {
         MovidaCore movidaCore=new MovidaCore();
 
         movidaCore.setSort(SortingAlgorithm.SelectionSort);
-        movidaCore.setMap(MapImplementation.BTree);
+        movidaCore.setMap(MapImplementation.AVL);
 
 
         File file= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/esempio-formato-dati.txt");
         movidaCore.loadFromFile(file);
-        Person attore=movidaCore.getPersonByName("Harrison Ford");
+      //  movidaCore.deleteMovieByTitle("Taxi Driver");
+      // Movie[] attori= movidaCore.getAllMovies();
+       Person attore=movidaCore.getPersonByName("Robert De Niro");
 
-        Collaboration[] person=movidaCore.maximizeCollaborationsInTheTeamOf(attore);
+       // Collaboration[] person=movidaCore.maximizeCollaborationsInTheTeamOf(attore);
 
-        for(Collaboration per:person){
-            System.out.println(per.getActorA().getName()+" "+per.getScore()+" "+per.getActorB().getName());
+
+/*
+int i=0;
+        for(Movie per:attori){
+            System.out.println(per.getTitle());
+            i++;
+
         }
+        */
 
+        System.out.println(attore.getFilmCount());
+/*
+        for(Person person: movidaCore.getAllPeople())
+        System.out.println(person.getName()+ " "+person.getFilmCount());
+
+*/
 
 
 

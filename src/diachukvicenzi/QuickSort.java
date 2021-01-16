@@ -4,18 +4,22 @@ import movida.commons.Movie;
 import movida.commons.Person;
 
 public class QuickSort {
-    /// Java program for implementation of QuickSort
+    ///////PER MOVIE/////////////
 
-    /* This function takes last element as pivot,
-       places the pivot element at its correct
-       position in sorted array, and places all
-       smaller (smaller than pivot) to left of
-       pivot and all greater elements to right
-       of pivot */
+
+    /*Sceglie l'ultimo elemento come pivot, lo posiziona nella sua corretta posizione
+    * e mette tutti gli elementi più piccoli del pivot a sinistra e piu grandi a destra
+    *
+    * func è l'intero che indica per cosa si vuole ordinare
+    * 1: anno
+    * 2: voti
+    *
+    * */
+
     int partition(Movie[] movie, int low, int high,int func)
     {
         Movie pivot = movie[high];
-        int i = (low-1); // index of smaller element
+        int i = (low-1); // indice dell'elemento più piccolo
         for (int j=low; j<high; j++)
         {
 
@@ -25,8 +29,7 @@ public class QuickSort {
                     if (movie[j].getVotes() >= pivot.getVotes()  )
                     {
                         i++;
-
-                        // swap arr[i] and arr[j]
+                        // scambia arr[i] e arr[j]
                         Movie temp = movie[i];
                         movie[i] = movie[j];
                         movie[j] = temp;
@@ -36,79 +39,68 @@ public class QuickSort {
                     if (movie[j].getYear() >= pivot.getYear()  )
                     {
                         i++;
-
-                        // swap arr[i] and arr[j]
+                        // scambia arr[i] e arr[j]
                         Movie temp = movie[i];
                         movie[i] = movie[j];
                         movie[j] = temp;
                     }
                     break;
-
             }
-
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
+        // scambia arr[i+1] e arr[high] (o il pivot)
         Movie temp = movie[i+1];
         movie[i+1] = movie[high];
         movie[high] = temp;
 
-        return i+1;
+        return i+1; //ritorna posizione pivot
     }
 
 
-    /* The main function that implements QuickSort()
-      arr[] --> Array to be sorted,
-      low  --> Starting index,
-      high  --> Ending index */
+    /* Funzione che implementa QuickSort()
+      arr[] --> Array da ordinare,
+      low  --> indice inizio,
+      high  --> indice fine */
     Movie[] sort(Movie[] movie, int low, int high,int func)
     {
         if (low < high)
         {
-            /* pi is partitioning index, arr[pi] is
-              now at right place */
+            /* ordino e ritorno pivot */
             int pi = partition(movie, low, high,func);
 
-            // Recursively sort elements before
-            // partition and after partition
+            // ricorsivamente ordino elementi prima del pivot e dopo pivot
             sort(movie, low, pi-1,func);
             sort(movie, pi+1, high,func);
         }
         return movie;
     }
 
+
+
+    //////PER PERSON///////////
+
+
     int partition(Person[] person, int low, int high,int func)
     {
         Person pivot = person[high];
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-
             switch (func){
-
                 case 0:
-
                     if (person[j].getFilmCount() >= pivot.getFilmCount()  )
                     {
                         i++;
-
-                        // swap arr[i] and arr[j]
                         Person temp = person[i];
                         person[i] = person[j];
                         person[j] = temp;
                     }
                     break;
-
-
             }
-
         }
-
-        // swap arr[i+1] and arr[high] (or pivot)
         Person temp = person[i+1];
         person[i+1] = person[high];
         person[high] = temp;
-
         return i+1;
     }
 

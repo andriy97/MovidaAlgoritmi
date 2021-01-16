@@ -281,8 +281,29 @@ public class AVL {
 
     }
 
+    public Person[] getAllActors(){
+        Set<Person> Persone=getPersonSet();
+        Set<Person> Attori = new HashSet<>();
+
+        for(Person p:Persone){
+
+            if(p.getRole().equals("Attore")){
+                Attori.add(p);
+            }
+
+        }
+
+        Person[] attori=new Person[Attori.size()];
+        Attori.toArray(attori);
+        return attori;
+    }
+
+
+
+Set<String> nomiPersoneAggiunte;
     //funzione che ritorna il set completo di attori
     public Set<Person> getPersonSet() {
+        nomiPersoneAggiunte=new HashSet<>();
         actor = new HashSet<>();
         getPersonSet(root);
         return actor;
@@ -297,67 +318,28 @@ public class AVL {
         }
     }
 
+
     int sommaCast=0;
+
     //inserisce gli attori del cast nel set attori
     public void EsaminaNodoActor(AVLNode n) {
         Person[] cast=n.m.getCast();
         sommaCast=sommaCast+cast.length;
-        if (n != null) {
-            actor.add(n.m.getDirector());
-            for (int i = 0; i < cast.length; i++) {
-
-                actor.add(cast[i]);
-            }
-        }
-    }
-
-    Set<String> ActorName;
-    Person[] FilmCount;
-    int flag=-1;
-
-    public Person[] getPersonSet1() {
-        flag=-1;
-        FilmCount=new Person[sommaCast];
-        ActorName = new HashSet<>();
-        getPersonSet1(root);
-        Person[] result=new Person[flag];
-        for (int i = 0; i <flag ; i++) {
-            result[i]=FilmCount[i];
+        //se nella lista di persone gia inserite non c'è il suo nome aggiungilo
+        if(!nomiPersoneAggiunte.contains(n.m.getDirector().getName()))
+        { actor.add(n.m.getDirector());
+            nomiPersoneAggiunte.add(n.m.getDirector().getName());
         }
 
-        return result;
-    }
-
-    //ricorsivamente controlla tutti i nodi per inserire tutti gli attori di un film
-    public void getPersonSet1(AVLNode r) {
-        if (r != null) {
-            ContaFilm(r);
-            getPersonSet1(r.left);
-            getPersonSet1(r.right);
-        }
-    }
-
-    public void ContaFilm(AVLNode n) {
-        Person[] cast=n.m.getCast();
-
+        //per ogni persona se non è aggiunta alla lista di persone gia inserite la aggiunge alla lista da stampare
         for (int i = 0; i < cast.length; i++) {
-
-            if(ActorName.contains(cast[i].getName().trim()))
-            {
-                for(int y=0;y<flag+1;y++){
-                    if(FilmCount[y].getName().trim().contains(cast[i].getName().trim())){
-                        FilmCount[y].setFilmCount(FilmCount[y].getFilmCount()+1);
-                    }
-                }
-            }
-            else {
-                ActorName.add(cast[i].getName().trim());
-                flag=flag+1;
-                FilmCount[flag]=cast[i];
+            if(!nomiPersoneAggiunte.contains(n.m.getCast()[i].getName())){
+                actor.add(cast[i]);
+                nomiPersoneAggiunte.add(n.m.getCast()[i].getName());
             }
         }
-
     }
+
 
 
 
@@ -481,11 +463,39 @@ public class AVL {
     public boolean deleteMovieByTitle(String Title) {
 
         if (getMovieByTitle(Title) != null) {
-            remove(getMovieByTitle(root,Title));
-            return true;
-        }
-        else return false;
+            Movie movieRemoved = getMovieByTitle(root, Title);
+
+            boolean removed = remove(getMovieByTitle(root, movieRemoved.getTitle()));
+            if (removed) {
+                findDeletedActors(root,movieRemoved);
+                return true;
+            }else return false;
+
+        } else return false;
     }
 
+
+    void findDeletedActors(AVLNode node,Movie DeletedMovie) {
+        if (node != null) {
+            UpdateAfterDelete(node,DeletedMovie);
+            findDeletedActors(node.left,DeletedMovie);
+            findDeletedActors(node.right,DeletedMovie);
+        }
+    }
+
+    void UpdateAfterDelete(AVLNode nodo,Movie DeletedMovie){
+
+        for (Person p : nodo.m.getCast()) {
+            for (Person r : DeletedMovie.getCast()) {
+                if (r.getName().equals(p.getName())) {
+                    p.setFilmCount(p.getFilmCount() - 1);
+                }
+            }
+        }
+        if(nodo.m.getDirector().equals(DeletedMovie.getDirector())){
+            nodo.m.getDirector().setFilmCount(nodo.m.getDirector().getFilmCount()-1);
+        }
+
+    }
 
 }

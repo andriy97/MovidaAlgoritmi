@@ -15,7 +15,7 @@ public class SelectionSort {
                 //facciamo puntare minimo all' elemento trovato
                 switch (s){
                     case "voti":
-                        if(array[minimo].getVotes()>array[j].getVotes()) {
+                        if(array[minimo].getVotes()<array[j].getVotes()) {
                             minimo = j;
                         }
                         break;

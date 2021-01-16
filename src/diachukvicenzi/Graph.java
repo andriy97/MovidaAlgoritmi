@@ -15,6 +15,7 @@ public class Graph {
     }
 
 
+
     public Person[] getDirectCollaborators(Person actor){
         int i=0;
         ArrayList<Collaboration> collaborations=this.grafo.get(actor.getName());//lista di collaborazioni dell'attore
