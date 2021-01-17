@@ -370,7 +370,7 @@ public class AVL {
 
     Set<Movie> FilmAnno;
 
-    public Set<Movie> getMovieSSet(Integer Anno) {
+    public Set<Movie> getMoviesByYear(Integer Anno) {
         FilmAnno = new HashSet<>();
         getMovieYearSet(root, Anno);
         return FilmAnno;
@@ -420,7 +420,60 @@ public class AVL {
         }
     }
 /////////////////////////////////////////////////////////////////////////////////
+//funzione per trovare i film che contengono la stringa inserita
 
+    Set<Movie> movieTitle;
+    public Set<Movie> searchMoviesByTitle(String title) {
+        movieTitle = new HashSet<>();
+        searchMoviesByTitle(root, title);
+        return movieTitle;
+    }
+
+
+    public void searchMoviesByTitle(AVLNode r, String title) {
+        if (r != null) {
+            EsaminaTitoloFilm(r, title);
+            searchMoviesByTitle(r.left, title);
+            searchMoviesByTitle(r.right, title);
+        }
+    }
+
+    public void EsaminaTitoloFilm(AVLNode n, String title) {
+
+        if (n.m.getTitle().contains(title)) {
+            movieTitle.add(n.m);
+        }
+    }
+
+    //per trovare ogni film in cui ha recitato un attore
+
+    Set<Movie> MovieStarred;
+    public Set<Movie> searchMoviesStarredBy(String name) {
+        MovieStarred = new HashSet<>();
+        searchMoviesStarredBy(root, name);
+        return MovieStarred;
+    }
+
+
+    public void searchMoviesStarredBy(AVLNode r, String name) {
+        if (r != null) {
+            EsaminaAttoriFilm(r, name);
+            searchMoviesStarredBy(r.left, name);
+            searchMoviesStarredBy(r.right, name);
+        }
+    }
+
+    public void EsaminaAttoriFilm(AVLNode n, String name) {
+
+        for(Person p:n.m.getCast())
+        {
+            if(p.getName().equals(name)){
+                MovieStarred.add(n.m);
+            }
+        }
+    }
+
+    //funzione per trovare il nodo con il titolo esatto
     public Movie getMovieByTitle(String Title) {
         return getMovieByTitle(root, Title);
     }

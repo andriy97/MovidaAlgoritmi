@@ -60,7 +60,7 @@ public class main {
 
         MovidaCore movidaCore=new MovidaCore();
 
-        movidaCore.setSort(SortingAlgorithm.SelectionSort);
+        movidaCore.setSort(SortingAlgorithm.QuickSort);
         movidaCore.setMap(MapImplementation.AVL);
 
 
@@ -72,8 +72,8 @@ public class main {
       //  movidaCore.clear();
        // Person[] Collab = movidaCore.getTeamOf(p);
 
-        Movie[] m=movidaCore.getAllMovies();
-        int count2=movidaCore.countPeople();
+        Movie[] m=movidaCore.searchMoviesDirectedBy("Quentin Tarantino");
+       // int count2=movidaCore.countPeople();
 
 
 for(Movie movie: m){

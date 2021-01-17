@@ -224,38 +224,23 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
         }
     }
 
+
     @Override
     public Movie[] searchMoviesByTitle(String title) { //Funzia
         if(AVL()){
-            Movie[] movie=getAllMovies();
-            Set<Movie> film;
-            film = new HashSet<>();
-            for (Movie x : movie) {
-                if(x.getTitle().contains(title)){
-                    film.add(x);
-                }
-            }
-            movie=new Movie[film.size()];
-            return film.toArray(movie);
+             return Utils.toArrayMovie(avl.searchMoviesByTitle(title));
+
         }else{
             return btree.searchMovieByTitle(title);
 
         }
     }
 
+
     @Override
     public Movie[] searchMoviesInYear(Integer year) { //funzia
         if(AVL()){
-            Movie[] movie=getAllMovies();
-            Set<Movie> film;
-            film = new HashSet<>();
-            for (Movie x : movie) {
-                if(x.getYear().equals(year)){
-                    film.add(x);
-                }
-            }
-            movie=new Movie[film.size()];
-            return film.toArray(movie);
+            return Utils.toArrayMovie(avl.getMoviesByYear(year));
         }else{
             return btree.searchMoviesInYear(year);
         }
@@ -265,16 +250,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
 
     public Movie[] searchMoviesDirectedBy(String name) { //Funzia
         if(AVL()){
-            Movie[] movie=getAllMovies();
-            Set<Movie> film;
-            film = new HashSet<>();
-            for (Movie x : movie) {
-                if(x.getDirector().getName().contains(name)){
-                    film.add(x);
-                }
-            }
-            movie=new Movie[film.size()];
-            return film.toArray(movie);
+           return Utils.toArrayMovie(avl.searchMoviesDirectedBy(name));
         }else{
             return btree.searchMoviesDirectedBy(name);
 
@@ -284,17 +260,7 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     @Override
     public Movie[] searchMoviesStarredBy(String name) { //Funzia
         if(AVL()){
-            Movie[] movie=getAllMovies();
-            Set<Movie> result  = new HashSet<>();
-            for (int i = 0; i < movie.length; i++) {
-                for (Person p:movie[i].getCast() ) {
-                    if(p.getName().contains(name)){
-                        result.add(movie[i]);
-                    }
-                }
-            }
-            movie=new Movie[result.size()];
-            return result.toArray(movie);
+            return Utils.toArrayMovie(avl.searchMoviesStarredBy(name));
         }else{
             return btree.searchMoviesStarredBy(name);
         }
