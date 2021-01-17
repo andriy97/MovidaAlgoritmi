@@ -61,33 +61,27 @@ public class main {
         MovidaCore movidaCore=new MovidaCore();
 
         movidaCore.setSort(SortingAlgorithm.SelectionSort);
-        movidaCore.setMap(MapImplementation.AVL);
+        movidaCore.setMap(MapImplementation.BTree);
 
 
         File file= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/esempio-formato-dati.txt");
+        File file2= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/bacicci.txt");
+
         movidaCore.loadFromFile(file);
-      //  movidaCore.deleteMovieByTitle("Taxi Driver");
-      // Movie[] attori= movidaCore.getAllMovies();
-       Person attore=movidaCore.getPersonByName("Robert De Niro");
+       // movidaCore.deleteMovieByTitle("Scarface");
+      //  movidaCore.clear();
+       // Person[] Collab = movidaCore.getTeamOf(p);
 
-       // Collaboration[] person=movidaCore.maximizeCollaborationsInTheTeamOf(attore);
+        Movie[] m=movidaCore.getAllMovies();
+        int count2=movidaCore.countPeople();
 
 
-/*
-int i=0;
-        for(Movie per:attori){
-            System.out.println(per.getTitle());
-            i++;
+for(Movie movie: m){
+    System.out.println(movie.getTitle());
 
-        }
-        */
+}
 
-        System.out.println(attore.getFilmCount());
-/*
-        for(Person person: movidaCore.getAllPeople())
-        System.out.println(person.getName()+ " "+person.getFilmCount());
 
-*/
 
 
 

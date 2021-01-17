@@ -1,6 +1,8 @@
 package diachukvicenzi;
 
 import movida.commons.Movie;
+
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import movida.commons.Person;
@@ -263,22 +265,9 @@ public class AVL {
     //set di attori di tipo persona presenti nell'albero(non ci sono duplicati perchè è un set)
     Set<Person> actor;
 
-    // conta i nodi
+
     public int countPeople() {
-        actor = new HashSet<>();
-        countPeople(root);
-        return actor.size();
-    }
-
-    //scorre ricorsivamente i nodi e conta gli attori
-    public void countPeople(AVLNode r) {
-        if (r != null) {
-            EsaminaNodoActor(r);
-            countPeople(r.left);
-            countPeople(r.right);
-
-        }
-
+        return getPersonSet().size();
     }
 
     public Person[] getAllActors(){
@@ -467,6 +456,7 @@ Set<String> nomiPersoneAggiunte;
 
             boolean removed = remove(getMovieByTitle(root, movieRemoved.getTitle()));
             if (removed) {
+                updateCollaborazioni();
                 findDeletedActors(root,movieRemoved);
                 return true;
             }else return false;
@@ -496,6 +486,20 @@ Set<String> nomiPersoneAggiunte;
             nodo.m.getDirector().setFilmCount(nodo.m.getDirector().getFilmCount()-1);
         }
 
+    }
+
+    Graph graph=new Graph();
+    void updateCollaborazioni() {
+
+        Set<Movie> m =getMovieSet();
+        for(Movie x:m) {
+            graph.creaCollaborazioni(x);
+        }
+
+    }
+
+    public HashMap returnNewGraph(){
+        return graph.getGrafo();
     }
 
 }

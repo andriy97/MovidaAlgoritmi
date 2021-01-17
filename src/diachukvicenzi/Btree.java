@@ -3,10 +3,7 @@ import com.sun.deploy.util.ArrayUtil;
 import movida.commons.Movie;
 import movida.commons.Person;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Btree {
     public BTreeNode root; // puntatore al nodo radice
@@ -395,6 +392,20 @@ public class Btree {
 
 
 
+
+    public int sizeOfTree() {
+        return size;
+    }
+
+    public void clear() {
+        Movie[] listOfMovies = getAllMovies();
+        for(int i = 0; i<listOfMovies.length; i++) {
+            remove(listOfMovies[i]);
+        }
+        root = null;
+
+    }
+
     public Movie getMovieByTitle(String k) {
         Movie movieToSearch = new Movie(k);
         BTreeNode node = searchKey(movieToSearch);
@@ -421,45 +432,7 @@ public class Btree {
     }
 
 
-    public Person[] searchMostActiveActors(Integer N) {
-        SelectionSort selectionSort=new SelectionSort();
-        Person[] attori=getAllActors();
-        Person[] result;
-        int max = attori.length;
-        if (max < N) {
-            N = max;
-            result = new Person[max];
-        } else result = new Person[N];
-        attori = selectionSort.sort(attori);
 
-        for (int i = 0; i < N; i++) {
-            result[i] = attori[i];
-        }
-
-        return result;
-    }
-
-
-public void aggiornaAttore(String nome, BTreeNode node){
-    int i = 0;
-    for (i = 0; i < node.n; i++) {
-
-        if (node.leaf == false) {
-            aggiornaAttore(nome,node.C[i]);
-        }
-        for(Person attore: node.keys[i].getCast()) {
-            if(attore.getName().equals(nome)){
-               attore.setFilmCount(attore.getFilmCount()-1);
-            }
-        }
-    }
-
-    if (node.leaf == false) {
-        aggiornaAttore(nome,node.C[i]);
-    }
-    return;
-
-}
     public boolean deleteMovieByTitle(String k){
         //aggiorno i filmcount del cast
         Movie film=getMovieByTitle(k);
@@ -471,36 +444,44 @@ public void aggiornaAttore(String nome, BTreeNode node){
         if (film!=null){
             Movie movieToDelete =new Movie(k);
             remove(movieToDelete);
+            updateCollaborazioni();
             return true;
         }else{
             return false;
         }
     }
 
-    public int sizeOfTree() {
-        return size;
+    Graph graph=new Graph();
+    void updateCollaborazioni() {
+        Movie[] m=getAllMovies();
+        for(Movie x:m) {
+            graph.creaCollaborazioni(x);
+        }
     }
 
-    //scorre l'array finché non arriva alla posizione libera in cui inserire e ritorna quella
-    public int getNextPosition(Movie[] listOfMovies) {
-        int i;
-        for(i = 0; i < listOfMovies.length; i++) {
-            if(listOfMovies[i] == null) {
-                return i;
-            }
-        }
-        return -1;
+    public HashMap returnNewGraph(){
+        return graph.getGrafo();
     }
 
-    //scorre l'array finché non arriva alla posizione libera in cui inserire e ritorna quella
-    public int getNextPositionPerson(Person[] listOfPeople) {
-        int i;
-        for(i = 0; i < listOfPeople.length; i++) {
-            if(listOfPeople[i] == null) {
-                return i;
+    public void aggiornaAttore(String nome, BTreeNode node){
+        int i = 0;
+        for (i = 0; i < node.n; i++) {
+
+            if (node.leaf == false) {
+                aggiornaAttore(nome,node.C[i]);
+            }
+            for(Person attore: node.keys[i].getCast()) {
+                if(attore.getName().equals(nome)){
+                    attore.setFilmCount(attore.getFilmCount()-1);
+                }
             }
         }
-        return -1;
+
+        if (node.leaf == false) {
+            aggiornaAttore(nome,node.C[i]);
+        }
+        return;
+
     }
 
 
@@ -513,6 +494,10 @@ public void aggiornaAttore(String nome, BTreeNode node){
 
 
     public Person[] getAllActors(){
+        if(root==null){
+            Person[] empty=new Person[0];
+            return empty;
+        }
         List<Person> actors= new ArrayList<>();
         getActors(root, actors);
         Person[] arrayActors= new Person[actors.size()];
@@ -520,7 +505,33 @@ public void aggiornaAttore(String nome, BTreeNode node){
         return arrayActors;
     }
 
+    List<String> nomiAttoriInseriti=new ArrayList<>();
+    public void getActors(BTreeNode node,List<Person> listOfActors) {
+        int i = 0;
+        for (i = 0; i < node.n; i++) {
+
+            if (node.leaf == false) {
+                getActors(node.C[i],listOfActors);
+            }
+            for(int k=0; k<node.keys[i].getCast().length; k++) {
+                if(!nomiAttoriInseriti.contains(node.keys[i].getCast()[k].getName())){
+                    listOfActors.add(node.keys[i].getCast()[k]);
+                    nomiAttoriInseriti.add(node.keys[i].getCast()[k].getName());
+                }
+            }
+        }
+
+        if (node.leaf == false) {
+            getActors(node.C[i],listOfActors);
+        }
+        return;
+    }
+
     public Person[] getAllPeople(){
+        if(root==null){
+            Person[] empty=new Person[0];
+            return empty;
+        }
         List<Person> people= new ArrayList<>();
         getPeople(root, people);
         Person[] arrayPeople= new Person[people.size()];
@@ -528,17 +539,38 @@ public void aggiornaAttore(String nome, BTreeNode node){
         return arrayPeople;
     }
 
-    public void clear() {
-        Movie[] listOfMovies = getAllMovies();
-        for(int i = 0; i<listOfMovies.length; i++) {
-            remove(listOfMovies[i]);
-        }
-        root = null;
+    List<String> nomiPersoneInserite=new ArrayList<>();
+    public void getPeople(BTreeNode node,List<Person> listOfPeople) {
 
+        int i = 0;
+        for (i = 0; i < node.n; i++) {
+
+            if (node.leaf == false) {
+                getPeople(node.C[i],listOfPeople);
+            }
+            for(int k=0; k<node.keys[i].getCast().length; k++) {
+                if(!nomiPersoneInserite.contains(node.keys[i].getCast()[k].getName())){
+                    listOfPeople.add(node.keys[i].getCast()[k]);
+                    nomiPersoneInserite.add(node.keys[i].getCast()[k].getName());
+                }
+            }
+            if(!nomiPersoneInserite.contains(node.keys[i].getDirector().getName())){
+                listOfPeople.add(node.keys[i].getDirector());
+                nomiPersoneInserite.add(node.keys[i].getDirector().getName());
+            }
+        }
+        if (node.leaf == false) {
+            getPeople(node.C[i],listOfPeople);
+        }
+        return;
     }
 
 
     public Movie[] getAllMovies() {
+        if(root==null){
+            Movie[] empty=new Movie[0];
+           return empty;
+        }
         Movie[] listOfMovies = new Movie[sizeOfTree()];
         getMovies(root,listOfMovies,0);
         return listOfMovies;
@@ -565,66 +597,34 @@ public void aggiornaAttore(String nome, BTreeNode node){
 
         return;
     }
-    List<String> nomiAttoriInseriti=new ArrayList<>();
-    public void getActors(BTreeNode node,List<Person> listOfActors) {
-        int i = 0;
-        for (i = 0; i < node.n; i++) {
 
-            if (node.leaf == false) {
-                getActors(node.C[i],listOfActors);
-            }
-            for(int k=0; k<node.keys[i].getCast().length; k++) {
-                if(!nomiAttoriInseriti.contains(node.keys[i].getCast()[k].getName())){
-                    listOfActors.add(node.keys[i].getCast()[k]);
-                    nomiAttoriInseriti.add(node.keys[i].getCast()[k].getName());
-                }
+    //scorre l'array finché non arriva alla posizione libera in cui inserire e ritorna quella
+    public int getNextPosition(Movie[] listOfMovies) {
+        int i;
+        for(i = 0; i < listOfMovies.length; i++) {
+            if(listOfMovies[i] == null) {
+                return i;
             }
         }
-
-        if (node.leaf == false) {
-            getActors(node.C[i],listOfActors);
-        }
-        return;
+        return -1;
     }
-    List<String> nomiPersoneInserite=new ArrayList<>();
-    public void getPeople(BTreeNode node,List<Person> listOfPeople) {
-
-        int i = 0;
-        for (i = 0; i < node.n; i++) {
-
-            if (node.leaf == false) {
-                getPeople(node.C[i],listOfPeople);
-            }
-            for(int k=0; k<node.keys[i].getCast().length; k++) {
-                    if(!nomiPersoneInserite.contains(node.keys[i].getCast()[k].getName())){
-                        listOfPeople.add(node.keys[i].getCast()[k]);
-                        nomiPersoneInserite.add(node.keys[i].getCast()[k].getName());
-                    }
 
 
 
-            }
-            if(!nomiPersoneInserite.contains(node.keys[i].getDirector().getName())){
-                listOfPeople.add(node.keys[i].getDirector());
-                nomiPersoneInserite.add(node.keys[i].getDirector().getName());
-            }
 
-        }
-
-        if (node.leaf == false) {
-            getPeople(node.C[i],listOfPeople);
-        }
-        return;
-    }
 
     public Movie[] searchMovieByTitle(String title){
+        if(root==null){
+            Movie[] empty=new Movie[0];
+            return empty;
+        }
         List<Movie> moviesList=new ArrayList<>();
         getAllMoviesByTitle(root,moviesList, title);
         Movie[] moviesArray=new Movie[moviesList.size()];
         moviesList.toArray(moviesArray);
         return moviesArray;
     }
-
+//popola la lista che gli passo con i film con quel titolo
     public void getAllMoviesByTitle(BTreeNode node, List<Movie> listOfMovies, String title) {
         int i = 0;
         for (i = 0; i < node.n; i++) {
@@ -643,6 +643,10 @@ public void aggiornaAttore(String nome, BTreeNode node){
         return;
     }
    public Movie[] searchMoviesInYear(Integer year){
+       if(root==null){
+           Movie[] empty=new Movie[0];
+           return empty;
+       }
         List<Movie> moviesList=new ArrayList<>();
         getAllMoviesInYear(root,moviesList, year);
         Movie[] moviesArray=new Movie[moviesList.size()];
@@ -669,6 +673,10 @@ public void aggiornaAttore(String nome, BTreeNode node){
     }
 
    public Movie[] searchMoviesDirectedBy(String name){
+       if(root==null){
+           Movie[] empty=new Movie[0];
+           return empty;
+       }
        List<Movie> moviesList=new ArrayList<>();
        getAllMoviesDirectedBy(root,moviesList, name);
        Movie[] moviesArray=new Movie[moviesList.size()];
@@ -694,6 +702,10 @@ public void aggiornaAttore(String nome, BTreeNode node){
    }
 
     public Movie[] searchMoviesStarredBy(String name){
+        if(root==null){
+            Movie[] empty=new Movie[0];
+            return empty;
+        }
         List<Movie> moviesList=new ArrayList<>();
         getAllMoviesStarredBy(root,moviesList, name);
         Movie[] moviesArray=new Movie[moviesList.size()];

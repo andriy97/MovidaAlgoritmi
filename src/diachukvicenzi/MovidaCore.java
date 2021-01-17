@@ -147,9 +147,9 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     @Override
     public int countMovies() { //funzia
         if(AVL()){
-            return btree.size;
-        }else{
             return avl.nodecount;
+        }else{
+            return btree.size;
         }
 
     }
@@ -157,22 +157,34 @@ public class MovidaCore implements IMovidaConfig, IMovidaDB, IMovidaSearch, IMov
     @Override
     public int countPeople() { //funzia
         if (AVL()){
-          return btree.countPeople();
+          return avl.countPeople();
         }else{
-            return avl.countPeople();
+            return btree.countPeople();
         }
     }
 
     @Override
-    public boolean deleteMovieByTitle(String title) { //funzia
+    public boolean deleteMovieByTitle(String title) {
+        boolean Deleted;
         if(AVL()){
-           return avl.deleteMovieByTitle(title);
-        }else{
-           return btree.deleteMovieByTitle(title);
+            Deleted=avl.deleteMovieByTitle(title);
+            if(Deleted){
+                //prende il grafo di questa istanza e lo cambia con quello con le collaborazioni aggiornate
+                grafo.setGrafo(avl.returnNewGraph());
+                return true;
+            }else return false;
 
+        }else{
+            Deleted=btree.deleteMovieByTitle(title);
+            if(Deleted){
+                //prende il grafo di questa istanza e lo cambia con quello con le collaborazioni aggiornate
+                grafo.setGrafo(btree.returnNewGraph());
+                return true;
+            }else return false;
         }
 
     }
+
 
     @Override
     public Movie getMovieByTitle(String title) { //funzia

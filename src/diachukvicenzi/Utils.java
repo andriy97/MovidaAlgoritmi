@@ -113,10 +113,11 @@ public class Utils {
 
 
         try {
-            FileWriter fw = new FileWriter(f.getName(),false);
+
+            FileWriter fw = new FileWriter(f,false);
             PrintWriter out = new PrintWriter(fw);
             for (Movie movie: movies) {
-                //System.out.println(""+movie.getTitle());
+                //System.out.println(" sto stampando "+movie.getTitle());
                 out.println("Title: "+movie.getTitle());
                 out.println("Year: "+movie.getYear()  );
                 out.println("Director: "+movie.getDirector().getName());
