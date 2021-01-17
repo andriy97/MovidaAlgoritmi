@@ -61,7 +61,7 @@ public class main {
         MovidaCore movidaCore=new MovidaCore();
 
         movidaCore.setSort(SortingAlgorithm.SelectionSort);
-        movidaCore.setMap(MapImplementation.BTree);
+        movidaCore.setMap(MapImplementation.AVL);
 
 
         File file= new File("C:/Users/113an/IdeaProjects/Movida/src/movida/commons/esempio-formato-dati.txt");

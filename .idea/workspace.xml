@@ -41,13 +41,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="1" />
-          <entry key="java" value="17334" />
+          <entry key="java" value="17336" />
           <entry key="txt" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="17334" />
+          <entry key="JAVA" value="17336" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
@@ -76,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2200">
-              <caret line="134" selection-start-line="134" selection-end-line="134" />
+            <state relative-caret-position="396">
+              <caret line="148" selection-start-line="148" selection-end-line="148" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#238#239#0" expanded="true" />
@@ -89,7 +89,7 @@
                 <element signature="e#375#376#0" expanded="true" />
                 <element signature="e#452#453#0" expanded="true" />
                 <element signature="e#486#487#0" expanded="true" />
-                <element signature="e#2605#2620#0" expanded="true" />
+                <element signature="e#2987#3002#0" expanded="true" />
                 <element signature="e#4220#4221#0" expanded="true" />
                 <element signature="e#4287#4288#0" expanded="true" />
               </folding>
@@ -140,11 +140,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/AVL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="267" selection-start-line="267" selection-end-line="267" />
+            <state relative-caret-position="170">
+              <caret line="483" column="9" lean-forward="true" selection-start-line="483" selection-start-column="9" selection-end-line="483" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6106#6107#0" expanded="true" />
@@ -159,8 +159,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="74" column="44" lean-forward="true" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
+            <state relative-caret-position="112">
+              <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -235,11 +235,11 @@
         <option value="$PROJECT_DIR$/src/diachukvicenzi/SelectionSort.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/QuickSort.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/Utils.java" />
-        <option value="$PROJECT_DIR$/src/diachukvicenzi/Graph.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/MovidaCore.java" />
         <option value="$PROJECT_DIR$/src/movida/commons/esempio-formato-dati.txt" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/AVL.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/Btree.java" />
+        <option value="$PROJECT_DIR$/src/diachukvicenzi/Graph.java" />
         <option value="$PROJECT_DIR$/src/diachukvicenzi/main.java" />
       </list>
     </option>
@@ -307,7 +307,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610881340424" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610881603032" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -364,12 +364,12 @@
       <workItem from="1607976861753" duration="2451000" />
       <workItem from="1610278720946" duration="5044000" />
       <workItem from="1610292905258" duration="6879000" />
-      <workItem from="1610306397893" duration="69671000" />
+      <workItem from="1610306397893" duration="69922000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="160437000" />
+    <option name="totallyTimeSpent" value="160688000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -394,7 +394,7 @@
       <window_info anchor="bottom" id="Messages" order="0" weight="0.32907802" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32907802" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.3134752" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.3432624" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -577,20 +577,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/AVL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="267" selection-start-line="267" selection-end-line="267" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6106#6107#0" expanded="true" />
-            <element signature="e#6150#6151#0" expanded="true" />
-            <element signature="e#12389#12390#0" expanded="true" />
-            <element signature="e#12428#12429#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -621,20 +607,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="74" column="44" lean-forward="true" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2200">
-          <caret line="134" selection-start-line="134" selection-end-line="134" />
+        <state relative-caret-position="396">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#238#239#0" expanded="true" />
@@ -643,9 +619,33 @@
             <element signature="e#375#376#0" expanded="true" />
             <element signature="e#452#453#0" expanded="true" />
             <element signature="e#486#487#0" expanded="true" />
-            <element signature="e#2605#2620#0" expanded="true" />
+            <element signature="e#2987#3002#0" expanded="true" />
             <element signature="e#4220#4221#0" expanded="true" />
             <element signature="e#4287#4288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/diachukvicenzi/AVL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="483" column="9" lean-forward="true" selection-start-line="483" selection-start-column="9" selection-end-line="483" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6106#6107#0" expanded="true" />
+            <element signature="e#6150#6151#0" expanded="true" />
+            <element signature="e#12389#12390#0" expanded="true" />
+            <element signature="e#12428#12429#0" expanded="true" />
           </folding>
         </state>
       </provider>
